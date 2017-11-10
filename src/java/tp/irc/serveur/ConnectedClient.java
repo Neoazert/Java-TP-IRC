@@ -5,10 +5,39 @@
  */
 package java.tp.irc.serveur;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 /**
  *
  * @author p1502985
  */
-public class ConnectedClient {
+public class ConnectedClient implements Runnable{
+    private int idCounter;
+    private int id;
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private Server server;
     
+    ConnectedClient(Server server, Socket socket){
+        
+    }
+    
+    public void sendMessage(String message){
+        
+    }
+    
+    public void run(){
+        
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public void closeClient(){
+        
+    }
 }

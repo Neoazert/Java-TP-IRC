@@ -5,21 +5,10 @@
  */
 package java.tp.irc.serveur;
 
-import java.net.ServerSocket;
-
 /**
  *
  * @author p1502985
  */
-public class Connection implements Runnable {
-    private ServerSocket serverSocket;
-    private Server server;
+public class MainServer {
     
-    Connection(Server server){
-        
-    }
-    
-    public void run(){
-        
-    }
 }
