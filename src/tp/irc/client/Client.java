@@ -26,23 +26,32 @@ public class Client {
     private PrintWriter out;
     private BufferedReader in;
     
-    Client(String ipAdress,Integer port){
-        
+    Client(String ipAdress,Integer ServPort){
+        this.port = ServPort;
+        this.address = ipAdress;
         
         
         try {
             
             System.out.println("Demande de connexion");
-            socket = new Socket(ipAdress, port);
+            socket = new Socket(address, port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
             System.out.println("Connexion établie avec le serveur, authentification :");
       
         } catch (UnknownHostException e) {
-	  System.out.println("Impossible de se connecter à l'adresse "+socket.getLocalAddress());
+	  System.out.println("Impossible de se connecter à l'adresse "+address + "\n" + e.getMessage());
 	} catch (IOException e) {
-	  System.out.println("Aucun serveur à l'écoute du port "+socket.getLocalPort());
-	}
+	  System.out.println("Aucun serveur à l'écoute du port "+port + "\n" + e.getMessage());
+	}catch(Exception e){
+            System.out.println("Fatal Error: " + e.getMessage());
+        }
+        
+        ClientReceive clientReceive = new ClientReceive(this, in);
+        ClientSend clientSend = new ClientSend(out);
+        
+        clientReceive.run();
+        clientSend.run();
              
     }
     
