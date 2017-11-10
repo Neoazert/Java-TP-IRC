@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package java.tp.irc.model;
+package java.tp.irc.serveur;
 
 /**
  *
  * @author p1502985
  */
-public class ConnectedClient {
+public class Server {
     
 }
