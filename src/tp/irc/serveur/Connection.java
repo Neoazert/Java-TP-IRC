@@ -3,28 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package java.tp.ircl.client;
+package tp.irc.serveur;
 
-import java.io.PrintWriter;
+import java.net.ServerSocket;
 
 /**
  *
  * @author p1502985
  */
-public class ClientSend implements Runnable{
+public class Connection implements Runnable {
+    private ServerSocket serverSocket;
+    private Server server;
     
-    
-    private PrintWriter out;
-    
-    ClientSend(PrintWriter printWriter){
+    Connection(Server server){
         
     }
-    
     
     @Override
-    public void run() {
-        
+    public void run(){
         
     }
-    
 }
