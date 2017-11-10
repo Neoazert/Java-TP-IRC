@@ -19,43 +19,42 @@ import java.util.logging.Logger;
  * @author p1502985
  */
 public class Client {
-    
+
     private int port;
     private String address;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    
-    Client(String ipAdress,Integer ServPort){
+
+    Client(String ipAdress, Integer ServPort) {
         this.port = ServPort;
         this.address = ipAdress;
-        
-        
+
         try {
-            
+
             System.out.println("Demande de connexion");
             socket = new Socket(address, port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
             System.out.println("Connexion établie avec le serveur, authentification :");
-      
+
+            ClientReceive clientReceive = new ClientReceive(this, in);
+            ClientSend clientSend = new ClientSend(out);
+
+            clientReceive.run();
+            clientSend.run();
+
         } catch (UnknownHostException e) {
-	  System.out.println("Impossible de se connecter à l'adresse "+address + "\n" + e.getMessage());
-	} catch (IOException e) {
-	  System.out.println("Aucun serveur à l'écoute du port "+port + "\n" + e.getMessage());
-	}catch(Exception e){
+            System.out.println("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Aucun serveur à l'écoute du port " + port + "\n" + e.getMessage());
+        } catch (Exception e) {
             System.out.println("Fatal Error: " + e.getMessage());
         }
-        
-        ClientReceive clientReceive = new ClientReceive(this, in);
-        ClientSend clientSend = new ClientSend(out);
-        
-        clientReceive.run();
-        clientSend.run();
-             
+
     }
-    
-    public void disconnectedServer(){
+
+    public void disconnectedServer() {
         try {
             in.close();
             out.close();
@@ -65,6 +64,5 @@ public class Client {
             System.out.println("Error while disconnecting server :" + ex.getMessage());
         }
     }
-    
-    
+
 }
