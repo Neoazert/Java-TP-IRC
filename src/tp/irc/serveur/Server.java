@@ -5,6 +5,7 @@
  */
 package tp.irc.serveur;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +15,12 @@ import java.util.List;
  */
 public class Server {
     private int port;
-    private List<ConnectedClient> ConnectedClients = new ArrayList<>();
+    private ArrayList<ConnectedClient> clients;
     
-    Server(int port){
+    Server(int port) throws IOException{
         this.port = port;
+        this.clients = new ArrayList<ConnectedClient>();
+        Thread threadConnection = new Thread(new Connection(this));
     }
     
     public void addClient(ConnectedClient client){
@@ -35,4 +38,14 @@ public class Server {
     public int getPort(){
         return port;
     }
+
+    public ArrayList<ConnectedClient> getClients() {
+        return clients;
+    }
+
+    public void setClients(ArrayList<ConnectedClient> clients) {
+        this.clients = clients;
+    }
+    
+    
 }
