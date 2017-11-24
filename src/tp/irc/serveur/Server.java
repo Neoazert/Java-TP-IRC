@@ -8,6 +8,9 @@ package tp.irc.serveur;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,8 +23,22 @@ public class Server {
     Server(int port) throws IOException{
         this.port = port;
         this.clients = new ArrayList<ConnectedClient>();
+        System.out.println("Lancement du serveur sur le port: " + port);
         Thread threadConnection = new Thread(new Connection(this));
         threadConnection.start();
+        
+        
+        while(threadConnection.isAlive()){
+            try {
+                System.out.println("Serveur en cour d'execution ...");
+                TimeUnit.SECONDS.sleep(1);   
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        };
+        
+        
+        System.out.println("Serveur shutdown");
     }
     
     public void addClient(ConnectedClient client){
