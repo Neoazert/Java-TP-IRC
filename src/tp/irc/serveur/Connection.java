@@ -31,15 +31,17 @@ public class Connection implements Runnable {
         if(this.nbClientsConnectes != this.server.getClients().size())
         {
             try {
-                Socket sockNewClient = serverSocket.accept();
-                ConnectedClient newClient = new ConnectedClient(server, sockNewClient);
-                server.addClient(newClient);
-                Thread threadNewClient = new Thread(newClient);
-                threadNewClient.start();
+                while(true)
+                {
+                    Socket sockNewClient = serverSocket.accept();
+                    ConnectedClient newClient = new ConnectedClient(server, sockNewClient);
+                    server.addClient(newClient);
+                    Thread threadNewClient = new Thread(newClient);
+                    threadNewClient.start();
+                }
             } catch (IOException ex) {
                 Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        this.run();
     }
 }
