@@ -25,13 +25,15 @@ public class Server {
         this.clients = new ArrayList<ConnectedClient>();
         System.out.println("Lancement du serveur sur le port: " + port);
         Thread threadConnection = new Thread(new Connection(this));
+        
         threadConnection.start();
+        
         
         
         while(threadConnection.isAlive()){
             try {
                 System.out.println("Serveur en cour d'execution ...");
-                TimeUnit.SECONDS.sleep(1);   
+                TimeUnit.SECONDS.sleep(10);   
             } catch (InterruptedException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
