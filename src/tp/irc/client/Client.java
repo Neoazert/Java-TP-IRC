@@ -40,9 +40,14 @@ public class Client {
 
             ClientReceive clientReceive = new ClientReceive(this, in);
             ClientSend clientSend = new ClientSend(out);
-
-            clientReceive.run();
-            clientSend.run();
+            
+            
+            Thread threadReceive = new Thread(clientReceive);
+             Thread threadSend = new Thread(clientSend);
+            
+            
+            threadReceive.start();
+            threadSend.start();
 
         } catch (UnknownHostException e) {
             System.out.println("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());
