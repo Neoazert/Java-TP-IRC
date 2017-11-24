@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tp.irc.client.MainClient;
 
 /**
  *
@@ -19,6 +20,10 @@ public class IHM extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        String[] args = {"127.0.0.1", "2000"};
+        
+        MainClient.main(args);
+        
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
