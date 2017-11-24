@@ -28,7 +28,7 @@ public class Connection implements Runnable {
     
     @Override
     public void run(){
-        if(this.nbClientsConnectes != this.server.getClients().size())
+        if(this.nbClientsConnectes == this.server.getClients().size())
         {
             try {
                 while(true)
