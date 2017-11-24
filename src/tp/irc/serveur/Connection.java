@@ -28,7 +28,7 @@ public class Connection implements Runnable {
     
     @Override
     public void run(){
-        if(this.nbClientsConnectes != this.server.getClients().size())
+        if(this.nbClientsConnectes == this.server.getClients().size())
         {
             try {
                 while(true)
@@ -36,8 +36,6 @@ public class Connection implements Runnable {
                     Socket sockNewClient = serverSocket.accept();
                     ConnectedClient newClient = new ConnectedClient(server, sockNewClient);
                     server.addClient(newClient);
-                    Thread threadNewClient = new Thread(newClient);
-                    threadNewClient.start();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
