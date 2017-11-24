@@ -21,18 +21,33 @@ public class Server {
         this.port = port;
         this.clients = new ArrayList<ConnectedClient>();
         Thread threadConnection = new Thread(new Connection(this));
+        threadConnection.start();
     }
     
     public void addClient(ConnectedClient client){
-        
+        for(ConnectedClient ceClient : clients){
+            ceClient.sendMessage("Le client " + client.getId() + " vient de se connecter");
+        }
+        this.clients.add(client);
     }
     
-    public void broadcastMessage(String s, int i){
-        
+    public void broadcastMessage(String message, int id){
+        for(ConnectedClient client : clients)
+        {
+            if(client.getId() != id)
+            {
+                client.sendMessage("Message de " + id + " : " + message);
+            }
+        }
     }
     
     public void disconnectedClient(ConnectedClient client){
-        
+        client.closeClient();
+        this.clients.remove(client);
+        for(ConnectedClient ceClient : clients)
+        {
+            client.sendMessage("Le client " + client.getId() + " nous a quitté");
+        }
     }
     
     public int getPort(){
