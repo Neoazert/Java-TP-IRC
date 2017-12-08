@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tp.irc.client.Client;
 import tp.irc.client.MainClient;
 
 /**
@@ -51,7 +52,7 @@ public class IHM extends Application {
     
     @Override
     public void stop(){
-        System.out.println("Fermeture de l'application");
+        Client.write("Fermeture de l'application");
         System.exit(0);
     }
     

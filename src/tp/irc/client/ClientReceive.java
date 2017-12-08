@@ -38,13 +38,13 @@ public class ClientReceive implements Runnable {
                 message = in.readLine();
                 
                 if (message != null) {
-                    System.out.println("\nMessage reçu : " + message);
+                    Client.write("\n"+message);
                 } else {
                     isActive = false;
                 }
                 
             } catch (IOException ex) {
-                System.out.println("Erreur while Reciving message : " + ex.getMessage());
+                Client.write("Erreur while Reciving message : " + ex.getMessage());
             }
         }
         client.disconnectedServer();

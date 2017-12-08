@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,94 +68,13 @@ public class FXMLDocumentController implements Initializable {
         IHM.controller.rootItem.getChildren().add(item);
         IHM.controller.FXserverTree.setRoot(IHM.controller.rootItem);
 
-         
-        //IHM.controller.refreshServerTree();
-             
+                   
         FXMLDocumentController.out = out;
         FXMLDocumentController.in = in;
         
 
-        GraphicClientReceive graphicClientReceive = new GraphicClientReceive(client, in);;
-        //UpdateServerStatus updateServerStatus = new UpdateServerStatus();
-        
-        
-        Thread threadReceive = new Thread(graphicClientReceive);
-        //Thread threadUpdate = new Thread(updateServerStatus);
-        
-        threadReceive.start();
-        //threadUpdate.start();
 
     }
-    
-    
-    @Deprecated
-    private void refreshServerTree(){
-        
-        rootItem.getChildren().clear();
-        
-        ArrayList<String> connectedClients = null; 
-        if (connectedClients != null)
-            for ( String c : connectedClients){
-                TreeItem<String> item = new TreeItem<String> ("Client " + c);
-                rootItem.getChildren().add(item);
-            }
-
-        IHM.controller.FXserverTree.setRoot(rootItem);
-        
-    }
-    
-    @Deprecated
-    public static class UpdateServerStatus implements Runnable {
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                }
-                IHM.controller.refreshServerTree();
-            }
-        }
-        
-    }
-    
-
-    public static class GraphicClientReceive implements Runnable {
-
-        private BufferedReader in;
-        private Client client;
-
-        public GraphicClientReceive(Client client, BufferedReader bufferedReader) {
-            this.client = client;
-            in = bufferedReader;
-
-        }
-
-        @Override
-        public void run() {
-
-            boolean isActive = true;
-            String message = null;
-
-            while (isActive) {
-                try {
-
-                    message = in.readLine();
-
-                    if (message != null) {
-                        IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\n" + message);
-                        
-                    } else {
-                        isActive = false;
-                    }
-
-                } catch (IOException ex) {
-                    System.err.println("Erreur");
-                }
-            }
-            client.disconnectedServer();
-        }
-    }
+     
 
 }

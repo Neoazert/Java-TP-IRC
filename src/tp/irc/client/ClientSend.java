@@ -26,6 +26,7 @@ public class ClientSend implements Runnable {
         Scanner sc = new Scanner(System.in);
         
         String message = null;
+        
          
         while (true) {
             

@@ -35,11 +35,11 @@ public class Client {
 
         try {
 
-            System.out.println("Demande de connexion");
+            Client.write("Demande de connexion");
             socket = new Socket(address, port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
-            System.out.println("Connexion établie avec le serveur, authentification :");
+            Client.write("Connexion établie avec le serveur, authentification ");
 
             ClientReceive clientReceive = new ClientReceive(this, in);
             ClientSend clientSend = new ClientSend(out);
@@ -50,19 +50,22 @@ public class Client {
             
             
             
-            if(IHM.isModeGraphique)
+            if(IHM.isModeGraphique){
+                threadReceive.start();
                 FXMLDocumentController.initConnection(out, in,this);
+            }
+                
             else{
                 threadReceive.start();
                 threadSend.start();
             }
 
         } catch (UnknownHostException e) {
-            System.out.println("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());
+            Client.write("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());
         } catch (IOException e) {
-            System.out.println("Aucun serveur à l'écoute du port " + port + "\n" + e.getMessage());
+            Client.write("Aucun serveur à l'écoute du port " + port + "\n" + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Fatal Error: " + e.getMessage());
+            Client.write("Fatal Error: " + e.getMessage());
         }
 
     }
@@ -74,7 +77,7 @@ public class Client {
             socket.close();
             System.exit(0);
         } catch (IOException ex) {
-            System.out.println("Error while disconnecting server :" + ex.getMessage());
+            Client.write("Error while disconnecting server :" + ex.getMessage());
         }
     }
 
@@ -97,7 +100,13 @@ public class Client {
     public BufferedReader getIn() {
         return in;
     }
+    
+    public static void write(String m){
+         if(IHM.isModeGraphique)
+             IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\n" + m);
+         else
+             System.out.println(m);
+    }
+    
 
-    
-    
 }
