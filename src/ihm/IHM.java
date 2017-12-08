@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tp.irc.client.MainClient;
 
 /**
  *
@@ -17,9 +18,22 @@ import javafx.stage.Stage;
  */
 public class IHM extends Application {
     
+    public static boolean isModeGraphique = false;
+    public static FXMLDocumentController controller;
+    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
+        
+        IHM.isModeGraphique = true;
+        
+        String[] args = {"127.0.0.1", "2000"};
+        MainClient.main(args);
+        
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = (Parent)loader.load();
+        controller = (FXMLDocumentController)loader.getController();
         
         Scene scene = new Scene(root);
         

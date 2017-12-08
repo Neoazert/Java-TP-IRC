@@ -5,6 +5,7 @@
  */
 package tp.irc.client;
 
+import ihm.FXMLDocumentController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -29,9 +30,10 @@ public class ClientReceive implements Runnable {
     public void run() {
 
         boolean isActive = true;
+        String message = null;
+        
         while (isActive) {
             try {
-                String message = null;
                 
                 message = in.readLine();
                 

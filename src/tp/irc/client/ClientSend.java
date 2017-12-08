@@ -5,6 +5,7 @@
  */
 package tp.irc.client;
 
+import ihm.FXMLDocumentController;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -23,11 +24,17 @@ public class ClientSend implements Runnable {
     @Override
     public void run() {
         Scanner sc = new Scanner(System.in);
+        
+        String message = null;
+         
         while (true) {
+            
             System.out.print("Votre message >> ");
-            String m = sc.nextLine();
-            out.println(m);
+            message = sc.nextLine();
+            out.println(message);
             out.flush();
+            
+            
 
         }
 
