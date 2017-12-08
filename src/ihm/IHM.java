@@ -18,13 +18,22 @@ import tp.irc.client.MainClient;
  */
 public class IHM extends Application {
     
+    public static boolean isModeGraphique = false;
+    public static FXMLDocumentController controller;
+    
     @Override
     public void start(Stage stage) throws Exception {
+        
+        
+        IHM.isModeGraphique = true;
         
         String[] args = {"127.0.0.1", "2000"};
         MainClient.main(args);
         
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = (Parent)loader.load();
+        controller = (FXMLDocumentController)loader.getController();
         
         Scene scene = new Scene(root);
         
