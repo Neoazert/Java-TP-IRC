@@ -78,4 +78,26 @@ public class Client {
         }
     }
 
+    public int getPort() {
+        return port;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public PrintWriter getOut() {
+        return out;
+    }
+
+    public BufferedReader getIn() {
+        return in;
+    }
+
+    
+    
 }

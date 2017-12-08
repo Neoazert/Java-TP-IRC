@@ -26,14 +26,15 @@ public class IHM extends Application {
         
         
         IHM.isModeGraphique = true;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = (Parent)loader.load();
+        controller = (FXMLDocumentController)loader.getController();
+        
         
         String[] args = {"127.0.0.1", "2000"};
         MainClient.main(args);
         
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
-        Parent root = (Parent)loader.load();
-        controller = (FXMLDocumentController)loader.getController();
         
         Scene scene = new Scene(root);
         
