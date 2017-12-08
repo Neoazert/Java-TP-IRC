@@ -31,6 +31,12 @@
                     <MenuItem mnemonicParsing="false" text="Delete" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="Setting">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Modifier les paramètres" />
+                        <MenuItem mnemonicParsing="false" text="Réinitialiser les paramètres" />
+                    </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
@@ -43,10 +49,9 @@
             </MenuBar>
             <HBox spacing="10.0">
                <children>
-                  <TextField />
-                  <TextField layoutX="10.0" layoutY="10.0" />
+                  <TextField promptText="Login :" />
+                  <TextField layoutX="10.0" layoutY="10.0" promptText="Mot de passe :" />
                   <Button mnemonicParsing="false" text="Log In" />
-                  <Button layoutX="308.0" layoutY="10.0" mnemonicParsing="false" text="Settings" />
                </children>
                <opaqueInsets>
                   <Insets />
