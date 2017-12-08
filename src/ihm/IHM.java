@@ -49,4 +49,10 @@ public class IHM extends Application {
         launch(args);
     }
     
+    @Override
+    public void stop(){
+        System.out.println("Fermeture de l'application");
+        System.exit(0);
+    }
+    
 }
