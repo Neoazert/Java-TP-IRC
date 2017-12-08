@@ -5,6 +5,8 @@
  */
 package ihm;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -20,15 +22,21 @@ import javafx.scene.control.TextArea;
 public class FXMLDocumentController implements Initializable {
     
     @FXML
-    public static TextArea FXmessage;
+    public TextArea FXmessage;
     
-    static String message;
+    static private PrintWriter out;
+    static private BufferedReader in;
     
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
-        message = FXmessage.getText();
+        String message = FXmessage.getText();
+        if(message != null && !message.equals("")){
+            out.println(message);
+            out.flush();
+            FXmessage.setText("");
+        }
         
     }
     
@@ -37,8 +45,9 @@ public class FXMLDocumentController implements Initializable {
         // TODO
     }    
     
-    static public void setClientInfo(String message){
-        FXMLDocumentController.message = message;
+    static public void initConnectionInfo(PrintWriter out,BufferedReader in){
+        FXMLDocumentController.out = out;
+        FXMLDocumentController.in = in;
     }
     
 }

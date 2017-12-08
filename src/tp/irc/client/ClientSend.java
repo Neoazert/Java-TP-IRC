@@ -26,10 +26,7 @@ public class ClientSend implements Runnable {
         Scanner sc = new Scanner(System.in);
         
         String message = null;
-        
-        
-        FXMLDocumentController.setClientInfo(message); //TODO : a tester
- 
+         
         while (true) {
             
             System.out.print("Votre message >> ");

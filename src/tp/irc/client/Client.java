@@ -5,6 +5,7 @@
  */
 package tp.irc.client;
 
+import ihm.FXMLDocumentController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,6 +30,7 @@ public class Client {
     Client(String ipAdress, Integer ServPort) {
         this.port = ServPort;
         this.address = ipAdress;
+        
 
         try {
 
@@ -43,8 +45,9 @@ public class Client {
             
             
             Thread threadReceive = new Thread(clientReceive);
-             Thread threadSend = new Thread(clientSend);
+            Thread threadSend = new Thread(clientSend);
             
+            FXMLDocumentController.initConnectionInfo(out, in);
             
             threadReceive.start();
             threadSend.start();
