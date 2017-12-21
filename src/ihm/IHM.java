@@ -44,6 +44,9 @@ public class IHM extends Application {
         
         Scene scene = new Scene(rootConnexion);
         
+        
+        
+        
         stage.setScene(scene);
         stage.show();
     }

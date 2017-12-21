@@ -38,7 +38,7 @@ public class ClientReceive implements Runnable {
                 message = in.readLine();
                 
                 if (message != null) {
-                    Client.write("\n"+message);
+                    Client.write(message);
                 } else {
                     isActive = false;
                 }
