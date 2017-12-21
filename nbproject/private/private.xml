@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/tp/irc/client/MainClient.java</file>
+            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/tp/irc/client/ClientSend.java</file>
+            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/ihm/IHM.java</file>
+            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/ihm/FXMLDocumentController.java</file>
+        </group>
     </open-files>
 </project-private>
