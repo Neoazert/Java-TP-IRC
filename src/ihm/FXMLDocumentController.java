@@ -9,14 +9,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import tp.irc.client.Client;
+import tp.irc.serveur.ConnectedClient;
+import tp.irc.serveur.Server;
 
 /**
  *
@@ -26,9 +33,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public TextArea FXmessage;
-
     @FXML
     public TextArea FXtextRecived;
+    @FXML
+    public TreeView <String> FXserverTree;
+    TreeItem<String> rootItem;
+    
 
     static private PrintWriter out;
     static private BufferedReader in;
@@ -38,6 +48,7 @@ public class FXMLDocumentController implements Initializable {
         String message = FXmessage.getText();
         if (message != null && !message.equals("")) {
             out.println(message);
+            IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\nMoi : " + message);
             out.flush();
             FXmessage.setText("");
         }
@@ -50,54 +61,20 @@ public class FXMLDocumentController implements Initializable {
     }
 
     static public void initConnection(PrintWriter out, BufferedReader in, Client client) {
+        
+        IHM.controller.rootItem = new TreeItem<String> (client.getAddress() +":" + client.getPort());
+        IHM.controller.rootItem.setExpanded(true);
+        TreeItem<String> item = new TreeItem<String> ("Moi");
+        IHM.controller.rootItem.getChildren().add(item);
+        IHM.controller.FXserverTree.setRoot(IHM.controller.rootItem);
+
+                   
         FXMLDocumentController.out = out;
         FXMLDocumentController.in = in;
-
-        GraphicClientReceive graphicClientReceive;
-        graphicClientReceive = new GraphicClientReceive(client, in);
-
-        Thread threadReceive = new Thread(graphicClientReceive);
-
-        threadReceive.start();
         
 
+
     }
-
-    public static class GraphicClientReceive implements Runnable {
-
-        private BufferedReader in;
-        private Client client;
-
-        public GraphicClientReceive(Client client, BufferedReader bufferedReader) {
-            this.client = client;
-            in = bufferedReader;
-
-        }
-
-        @Override
-        public void run() {
-
-            boolean isActive = true;
-            String message = null;
-
-            while (isActive) {
-                try {
-
-                    message = in.readLine();
-
-                    if (message != null) {
-                        IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\nMessage reçu : " + message);
-                        
-                    } else {
-                        isActive = false;
-                    }
-
-                } catch (IOException ex) {
-                    System.err.println("Erreur");
-                }
-            }
-            client.disconnectedServer();
-        }
-    }
+     
 
 }

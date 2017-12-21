@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tp.irc.client.Client;
 import tp.irc.client.MainClient;
 
 /**
@@ -26,14 +27,15 @@ public class IHM extends Application {
         
         
         IHM.isModeGraphique = true;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = (Parent)loader.load();
+        controller = (FXMLDocumentController)loader.getController();
+        
         
         String[] args = {"127.0.0.1", "2000"};
         MainClient.main(args);
         
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
-        Parent root = (Parent)loader.load();
-        controller = (FXMLDocumentController)loader.getController();
         
         Scene scene = new Scene(root);
         
@@ -46,6 +48,12 @@ public class IHM extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    @Override
+    public void stop(){
+        Client.write("Fermeture de l'application");
+        System.exit(0);
     }
     
 }

@@ -64,7 +64,7 @@
       </VBox>
    </top>
    <left>
-      <TreeView prefHeight="315.0" prefWidth="138.0" BorderPane.alignment="CENTER" />
+      <TreeView fx:id="FXserverTree" prefHeight="315.0" prefWidth="138.0" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
