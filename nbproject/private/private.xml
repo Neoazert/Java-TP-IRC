@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/tp/irc/client/MainClient.java</file>
-            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/tp/irc/client/ClientSend.java</file>
-            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/ihm/IHM.java</file>
-            <file>file:/C:/Users/Proprietaire/Desktop/Cours/Projet%20Java/Java-TP-IRC/src/ihm/FXMLDocumentController.java</file>
+            <file>file:/F:/Java/workspace/TP3/src/ihm/FXMLConnexionController.java</file>
+            <file>file:/F:/Java/workspace/TP3/src/ihm/FXMLConnexion.fxml</file>
+            <file>file:/F:/Java/workspace/TP3/src/tp/irc/bdd/Utilisateur.java</file>
         </group>
     </open-files>
 </project-private>

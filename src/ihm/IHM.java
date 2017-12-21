@@ -21,12 +21,17 @@ public class IHM extends Application {
     
     public static boolean isModeGraphique = false;
     public static FXMLDocumentController controller;
+    public static FXMLConnexionController controllerConnexion;
     
     @Override
     public void start(Stage stage) throws Exception {
         
-        
         IHM.isModeGraphique = true;
+        
+        FXMLLoader loaderConnexion = new FXMLLoader(getClass().getResource("FXMLConnexion.fxml"));
+        Parent rootConnexion = (Parent)loaderConnexion.load();
+        controllerConnexion = (FXMLConnexionController)loaderConnexion.getController();
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
         Parent root = (Parent)loader.load();
         controller = (FXMLDocumentController)loader.getController();
@@ -37,7 +42,7 @@ public class IHM extends Application {
         
         
         
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(rootConnexion);
         
         stage.setScene(scene);
         stage.show();
