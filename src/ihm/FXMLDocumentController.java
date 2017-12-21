@@ -7,16 +7,24 @@ package ihm;
 
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import tp.irc.client.Client;
+import tp.irc.serveur.ConnectedClient;
+import tp.irc.serveur.Server;
 
 /**
  *
@@ -29,8 +37,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public TextArea FXtextRecived;
     @FXML
-    public TreeView<String> FXserverTree;
+    public TreeView <String> FXserverTree;
     TreeItem<String> rootItem;
+
 
     static private PrintWriter out;
     static private BufferedReader in;
@@ -51,6 +60,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -58,15 +68,19 @@ public class FXMLDocumentController implements Initializable {
 
     static public void initConnection(PrintWriter out, BufferedReader in, Client client) {
 
-        IHM.controller.rootItem = new TreeItem<String>(client.getAddress() + ":" + client.getPort());
+        IHM.controller.rootItem = new TreeItem<String> (client.getAddress() +":" + client.getPort());
         IHM.controller.rootItem.setExpanded(true);
-        TreeItem<String> item = new TreeItem<String>("Moi");
+        TreeItem<String> item = new TreeItem<String> ("Moi");
         IHM.controller.rootItem.getChildren().add(item);
         IHM.controller.FXserverTree.setRoot(IHM.controller.rootItem);
 
+                   
         FXMLDocumentController.out = out;
         FXMLDocumentController.in = in;
 
+
+
     }
+
 
 }
