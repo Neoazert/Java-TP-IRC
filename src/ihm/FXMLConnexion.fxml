@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Avatar?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -32,11 +32,11 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <Avatar layoutX="46.0" radius="25.0">
+      <ImageView fitHeight="53.0" fitWidth="47.0" layoutX="46.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../Pictures/Chat.jpg" />
+            <Image url="../../image/chat.jpg" />
          </image>
-      </Avatar>
+      </ImageView>
       <Label layoutX="96.0" layoutY="1.0" text="LeChat">
          <font>
             <Font name="Brush Script MT Italic" size="36.0" />

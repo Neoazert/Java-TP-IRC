@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Avatar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,6 +7,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -60,11 +60,11 @@
    <top>
       <AnchorPane prefHeight="27.0" prefWidth="622.0" BorderPane.alignment="CENTER">
          <children>
-            <Avatar radius="38.0">
+            <ImageView fitHeight="83.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../Pictures/Chat.jpg" />
+                  <Image url="@../../image/chat.jpg" />
                </image>
-            </Avatar>
+            </ImageView>
             <Label layoutX="76.0" text="LeChat">
                <font>
                   <Font name="Brush Script MT Italic" size="56.0" />
