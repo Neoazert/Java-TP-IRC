@@ -9,26 +9,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
-<AnchorPane id="AnchorPane" prefHeight="364.0" prefWidth="445.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ihm.FXMLConnexionController">
-=======
+
 <AnchorPane id="AnchorPane" prefHeight="435.0" prefWidth="283.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ihm.FXMLConnexionController">
->>>>>>> 7d4a38555c633532998b8ff00f43ebf000bfe89c
+
    <children>
       <SplitPane dividerPositions="0.5" layoutX="9.0" layoutY="53.0" orientation="VERTICAL" prefHeight="364.0" prefWidth="283.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="281.0">
                <children>
-<<<<<<< HEAD
-                  <Button fx:id="btnConnexion" layoutX="185.0" layoutY="132.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Connexion" />
-                  <TextField id="loginConnexion" fx:id="loginConnexion" layoutX="147.0" layoutY="47.0" promptText="vrd" />
-                  <TextField id="mdpConnexion" fx:id="mdpConnexion" layoutX="147.0" layoutY="89.0" />
-=======
+
                   <Button layoutX="104.0" layoutY="128.0" mnemonicParsing="false" text="Connexion" />
                   <TextField layoutX="66.0" layoutY="50.0" promptText="Login" AnchorPane.bottomAnchor="103.0" AnchorPane.leftAnchor="66.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="50.0" />
                   <TextField layoutX="66.0" layoutY="89.0" promptText="Mot de passe" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="66.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="89.0" />
                   <Label layoutX="106.0" layoutY="14.0" text="CONNEXION" />
->>>>>>> 7d4a38555c633532998b8ff00f43ebf000bfe89c
+
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
