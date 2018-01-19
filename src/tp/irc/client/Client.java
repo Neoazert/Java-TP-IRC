@@ -103,6 +103,7 @@ public class Client {
     
     public static void write(String m){
          if(IHM.isModeGraphique)
+             
              IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\n" + m);
          else
              System.out.println(m);

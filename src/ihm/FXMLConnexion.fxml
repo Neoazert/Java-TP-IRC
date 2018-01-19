@@ -34,7 +34,7 @@
       </SplitPane>
       <ImageView fitHeight="53.0" fitWidth="47.0" layoutX="46.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="../../image/chat.jpg" />
+            <!--<Image url="../../image/chat.jpg" />-->
          </image>
       </ImageView>
       <Label layoutX="96.0" layoutY="1.0" text="LeChat">
