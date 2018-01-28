@@ -20,35 +20,59 @@ import tp.irc.client.MainClient;
  * @author p1502985
  */
 public class IHMConnexion extends Application {
-    
+    private static Stage primaryStage;
+    private static String address;
+    private static int port;
     public static boolean isModeGraphique = false;
     public static FXMLConnexionController controllerConnexion;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+    
+    
     
     @Override
     public void start(Stage stage) throws Exception {
-        
-        
+        this.primaryStage = stage;
         IHMConnexion.isModeGraphique = true;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLConnexion.fxml"));
         Parent root = (Parent)loader.load();
         controllerConnexion = (FXMLConnexionController)loader.getController();
         
-        
-        String[] args = {"127.0.0.1", "2000"};
-        System.out.println(Arrays.toString(args));
-        MainClient.main(args);
-        
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
         stage.show();
+        
+        controllerConnexion.setIhmConnexion(this);
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        if (args.length != 2) {
+            printUsage();
+        } else {
+            address = args[0];
+            port = new Integer(args[1]);
+            launch(args);
+        }
+    }
+    
+    private static void printUsage() {
+        Client.write("java client.Client <address> <port>");
+        Client.write("\t<address>: server's ip address");
+        Client.write("\t<port>: server's port");
     }
     
     @Override

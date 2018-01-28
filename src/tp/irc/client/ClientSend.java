@@ -33,8 +33,9 @@ public class ClientSend implements Runnable {
             
             message = sc.nextLine();
             out.println(message);
-            if(!IHM.isModeGraphique)
-                out.flush();
+            out.flush();
+            /*if(!IHM.isModeGraphique)
+                out.flush();*/
 
         }
 

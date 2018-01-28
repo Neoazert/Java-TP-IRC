@@ -6,6 +6,8 @@
 package tp.irc.client;
 
 import ihm.FXMLDocumentController;
+import ihm.IHMConnexion;
+import ihm.PrincipalViewController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,7 +25,6 @@ public class ClientReceive implements Runnable {
     public ClientReceive(Client client, BufferedReader bufferedReader) {
         this.client = client;
         in = bufferedReader;
-
     }
 
     @Override
@@ -38,7 +39,8 @@ public class ClientReceive implements Runnable {
                 message = in.readLine();
                 
                 if (message != null) {
-                    Client.write(message);
+                    //System.out.println(message);
+                    client.getController().receiveMessage(message);
                 } else {
                     isActive = false;
                 }

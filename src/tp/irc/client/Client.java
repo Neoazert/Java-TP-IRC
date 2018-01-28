@@ -7,6 +7,7 @@ package tp.irc.client;
 
 import ihm.FXMLDocumentController;
 import ihm.IHM;
+import ihm.PrincipalViewController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,12 +28,23 @@ public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private PrincipalViewController controller;
+    
+    public void setController(PrincipalViewController controller)
+    {
+        this.controller = controller;
+    }
+    
+    public PrincipalViewController getController()
+    {
+        return this.controller;
+    }
 
-    Client(String ipAdress, Integer ServPort) {
+    public Client(String ipAdress, Integer ServPort, PrincipalViewController controller) {
         this.port = ServPort;
         this.address = ipAdress;
+        this.controller = controller;
         
-
         try {
 
             Client.write("Demande de connexion");
@@ -48,9 +60,10 @@ public class Client {
             Thread threadReceive = new Thread(clientReceive);
             Thread threadSend = new Thread(clientSend);
             
+            threadReceive.start();
+            threadSend.start();
             
-            
-            if(IHM.isModeGraphique){
+            /*if(IHM.isModeGraphique){
                 threadReceive.start();
                 FXMLDocumentController.initConnection(out, in,this);
             }
@@ -58,7 +71,7 @@ public class Client {
             else{
                 threadReceive.start();
                 threadSend.start();
-            }
+            }*/
 
         } catch (UnknownHostException e) {
             Client.write("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());

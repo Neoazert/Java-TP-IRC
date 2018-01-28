@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ihm.PrincipalViewController">
+   <children>
+      <TextArea fx:id="textToSend" layoutX="50.0" layoutY="350.0" prefHeight="100.0" prefWidth="400.0" />
+      <ScrollPane fx:id="scrollReceivedText" layoutX="50.0" layoutY="50.0" prefHeight="270.0" prefWidth="400.0">
+         <content>
+            <TextFlow fx:id="receivedText" prefHeight="250.0" prefWidth="382.0" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="sendBtn" layoutX="470.0" layoutY="350.0" mnemonicParsing="false" onAction="#sendMessage" prefWidth="100.0" text="Envoyer" />
+      <Button fx:id="clearBtn" layoutX="470.0" layoutY="390.0" mnemonicParsing="false" prefWidth="100.0" text="Effacer" />
+      <TextArea fx:id="connected" layoutX="470.0" layoutY="50.0" prefHeight="270.0" prefWidth="100.0" />
+      <Text fx:id="textMembers" layoutX="470.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connectés :" />
+   </children>
+</Pane>
