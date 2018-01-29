@@ -46,7 +46,8 @@ public class ClientReceive implements Runnable {
                 }
                 
             } catch (IOException ex) {
-                Client.write("Erreur while Reciving message : " + ex.getMessage());
+                ex.printStackTrace();
+                //Client.write("Erreur while Reciving message : " + ex.getMessage());
             }
         }
         client.disconnectedServer();

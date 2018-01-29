@@ -6,7 +6,7 @@
 package tp.irc.client;
 
 import ihm.FXMLDocumentController;
-import ihm.IHM;
+//import ihm.IHM;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -32,6 +32,7 @@ public class ClientSend implements Runnable {
         while (true) {
             
             message = sc.nextLine();
+            
             out.println(message);
             out.flush();
             /*if(!IHM.isModeGraphique)

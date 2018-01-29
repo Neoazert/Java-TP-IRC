@@ -16,8 +16,12 @@
          </content>
       </ScrollPane>
       <Button fx:id="sendBtn" layoutX="470.0" layoutY="350.0" mnemonicParsing="false" onAction="#sendMessage" prefWidth="100.0" text="Envoyer" />
-      <Button fx:id="clearBtn" layoutX="470.0" layoutY="390.0" mnemonicParsing="false" prefWidth="100.0" text="Effacer" />
-      <TextArea fx:id="connected" layoutX="470.0" layoutY="50.0" prefHeight="270.0" prefWidth="100.0" />
-      <Text fx:id="textMembers" layoutX="470.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connectés :" />
+      <Button fx:id="clearBtn" layoutX="470.0" layoutY="390.0" mnemonicParsing="false" onAction="#clearMessage" prefWidth="100.0" text="Effacer" />
+      <ScrollPane fx:id="scrollConnected" layoutX="470.0" layoutY="50.0" prefHeight="270.0" prefWidth="100.0">
+         <content>
+            <TextFlow fx:id="connected" prefHeight="268.0" prefWidth="98.0" />
+         </content>
+      </ScrollPane>
+      <Text fx:id="textMembers" layoutX="470.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Utilisateurs :" />
    </children>
 </Pane>

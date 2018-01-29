@@ -45,7 +45,7 @@ public class FXMLDocumentController implements Initializable {
         String message = FXmessage.getText();
         if (message != null && !message.equals("")) {
             out.println(message);
-            IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\nMoi : " + message);
+            //IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\nMoi : " + message);
             out.flush();
             FXmessage.setText("");
         }
@@ -56,7 +56,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    static public void initConnection(PrintWriter out, BufferedReader in, Client client) {
+    /*static public void initConnection(PrintWriter out, BufferedReader in, Client client) {
 
         IHM.controller.rootItem = new TreeItem<String>(client.getAddress() + ":" + client.getPort());
         IHM.controller.rootItem.setExpanded(true);
@@ -67,6 +67,6 @@ public class FXMLDocumentController implements Initializable {
         FXMLDocumentController.out = out;
         FXMLDocumentController.in = in;
 
-    }
+    }*/
 
 }

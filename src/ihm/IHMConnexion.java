@@ -70,14 +70,18 @@ public class IHMConnexion extends Application {
     }
     
     private static void printUsage() {
-        Client.write("java client.Client <address> <port>");
+        System.out.println("java client.Client <address> <port>");
+        System.out.println("\t<address>: server's ip address");
+        System.out.println("\t<port>: server's port");
+        /*Client.write("java client.Client <address> <port>");
         Client.write("\t<address>: server's ip address");
-        Client.write("\t<port>: server's port");
+        Client.write("\t<port>: server's port");*/
     }
     
     @Override
     public void stop(){
-        Client.write("Fermeture de l'application");
+        System.out.println("Fermeture de l'application");
+        //Client.write("Fermeture de l'application");
         System.exit(0);
     }
     

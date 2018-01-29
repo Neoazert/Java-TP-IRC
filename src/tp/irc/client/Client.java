@@ -6,7 +6,7 @@
 package tp.irc.client;
 
 import ihm.FXMLDocumentController;
-import ihm.IHM;
+//import ihm.IHM;
 import ihm.PrincipalViewController;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,6 +29,12 @@ public class Client {
     private PrintWriter out;
     private BufferedReader in;
     private PrincipalViewController controller;
+    private String login;
+    
+    public String getLogin()
+    {
+        return this.login;
+    }
     
     public void setController(PrincipalViewController controller)
     {
@@ -40,18 +46,21 @@ public class Client {
         return this.controller;
     }
 
-    public Client(String ipAdress, Integer ServPort, PrincipalViewController controller) {
+    public Client(String ipAdress, Integer ServPort, PrincipalViewController controller, String login) {
         this.port = ServPort;
         this.address = ipAdress;
         this.controller = controller;
+        this.login = login;
         
         try {
 
-            Client.write("Demande de connexion");
+            //Client.write("Demande de connexion");
+            System.out.println("Demande de connexion");
             socket = new Socket(address, port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
-            Client.write("Connexion établie avec le serveur, authentification ");
+            System.out.println("Connexion établie avec le serveur, authentification");
+            //Client.write("Connexion établie avec le serveur, authentification ");
 
             ClientReceive clientReceive = new ClientReceive(this, in);
             ClientSend clientSend = new ClientSend(out);
@@ -74,11 +83,14 @@ public class Client {
             }*/
 
         } catch (UnknownHostException e) {
-            Client.write("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());
+            e.printStackTrace();
+           // Client.write("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());
         } catch (IOException e) {
-            Client.write("Aucun serveur à l'écoute du port " + port + "\n" + e.getMessage());
+            e.printStackTrace();
+            //Client.write("Aucun serveur à l'écoute du port " + port + "\n" + e.getMessage());
         } catch (Exception e) {
-            Client.write("Fatal Error: " + e.getMessage());
+            e.printStackTrace();
+            //Client.write("Fatal Error: " + e.getMessage());
         }
 
     }
@@ -90,7 +102,8 @@ public class Client {
             socket.close();
             System.exit(0);
         } catch (IOException ex) {
-            Client.write("Error while disconnecting server :" + ex.getMessage());
+            ex.printStackTrace();
+            //Client.write("Error while disconnecting server :" + ex.getMessage());
         }
     }
 
@@ -114,13 +127,13 @@ public class Client {
         return in;
     }
     
-    public static void write(String m){
-         if(IHM.isModeGraphique)
+    /*public static void write(String m){
+         if(IHMC.isModeGraphique)
              
              IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\n" + m);
          else
              System.out.println(m);
-    }
+    }*/
     
 
 }

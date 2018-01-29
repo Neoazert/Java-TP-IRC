@@ -20,13 +20,16 @@ public class MainClient {
         } else {
             String address = args[0];
             Integer port = new Integer(args[1]);
-            Client c = new Client(address, port, null);
+            Client c = new Client(address, port, null, null);
         }
     }
 
     private static void printUsage() {
-        Client.write("java client.Client <address> <port>");
+        System.out.println("java client.Client <address> <port>");
+        System.out.println("\t<address>: server's ip address");
+        System.out.println("\t<port>: server's port");
+        /*Client.write("java client.Client <address> <port>");
         Client.write("\t<address>: server's ip address");
-        Client.write("\t<port>: server's port");
+        Client.write("\t<port>: server's port");*/
     }
 }
