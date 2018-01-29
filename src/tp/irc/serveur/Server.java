@@ -49,6 +49,7 @@ public class Server {
             ceClient.sendMessage("Le client " + client.getId() + " vient de se connecter");
         }*/
         this.clients.add(client);
+        
     }
     
     public void broadcastMessage(Message message){

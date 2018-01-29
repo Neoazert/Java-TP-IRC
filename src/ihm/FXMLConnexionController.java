@@ -20,7 +20,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import tp.irc.client.Client;
 
@@ -72,11 +74,21 @@ public class FXMLConnexionController implements Initializable {
             {
                 try{
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
-                    Pane principalView = (Pane) loader.load();
-                    Scene scene = new Scene(principalView);
+                    loader.setLocation(IHMConnexion.class.getResource("RootLayout.fxml"));
+                    BorderPane borderPane = (BorderPane) loader.load();
+                    RootLayoutController rootLayoutController = loader.getController();
+                    
+                    FXMLLoader loader2 = new FXMLLoader();
+                    loader2.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                    Pane principalView = (Pane) loader2.load();
+                    
+                    Tab tab = new Tab("Général");
+                    tab.setContent(principalView);
+                    rootLayoutController.tabPane.getTabs().add(tab);
+                    
+                    Scene scene = new Scene(borderPane);
                     ihmConnexion.getPrimaryStage().setScene(scene);
-                    principalViewController = loader.getController();
+                    principalViewController = loader2.getController();
                     Client client = new Client(ihmConnexion.getAddress(), ihmConnexion.getPort(), principalViewController, rs.getString("login"));
                     principalViewController.setClient(client);
                 }catch(IOException e){

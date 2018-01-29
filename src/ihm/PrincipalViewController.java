@@ -17,7 +17,9 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -111,9 +113,19 @@ public class PrincipalViewController implements Initializable {
             rs = st.executeQuery(sql);
             while(rs.next())
             {
-                Text thisLogin = new Text(rs.getString("login") + "\n");
+                //Group group = new Group();
+                Label thisLogin = new Label(rs.getString("login"));
+                thisLogin.setId(rs.getString("login"));
                 thisLogin.setOnMouseClicked((event) -> System.out.println(thisLogin));
                 connected.getChildren().add(thisLogin);
+                //group.getChildren().add(thisLogin);
+                Label thisLoginConnected = new Label("(déconnecté)");
+                thisLoginConnected.setId("conected_" + rs.getString("login"));
+                connected.getChildren().add(thisLoginConnected);
+                connected.getChildren().add(new Text("\n"));
+                //group.getChildren().add(thisLoginConnected);
+                //connected.getChildren().add(group);
+                
                 //System.out.println(rs.getString("login"));
             }
         }catch(SQLException e){
