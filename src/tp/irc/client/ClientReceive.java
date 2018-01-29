@@ -8,8 +8,10 @@ package tp.irc.client;
 import ihm.FXMLDocumentController;
 import ihm.IHMConnexion;
 import ihm.PrincipalViewController;
+import ihm.model.Message;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +21,10 @@ import java.util.logging.Logger;
  */
 public class ClientReceive implements Runnable {
 
-    private BufferedReader in;
+    private ObjectInputStream in;
     private Client client;
 
-    public ClientReceive(Client client, BufferedReader bufferedReader) {
+    public ClientReceive(Client client, ObjectInputStream bufferedReader) {
         this.client = client;
         in = bufferedReader;
     }
@@ -31,13 +33,12 @@ public class ClientReceive implements Runnable {
     public void run() {
 
         boolean isActive = true;
-        String message = null;
-        
+        Message message = null;
         while (isActive) {
             try {
-                
-                message = in.readLine();
-                
+                System.out.println("TEST");
+                Object obj = in.readObject();
+                message = (Message)obj;
                 if (message != null) {
                     //System.out.println(message);
                     client.getController().receiveMessage(message);
@@ -48,6 +49,8 @@ public class ClientReceive implements Runnable {
             } catch (IOException ex) {
                 ex.printStackTrace();
                 //Client.write("Erreur while Reciving message : " + ex.getMessage());
+            }catch(ClassNotFoundException e){
+                e.printStackTrace();
             }
         }
         client.disconnectedServer();

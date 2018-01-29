@@ -6,6 +6,7 @@
 package ihm;
 
 import ihm.model.Message;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -55,17 +56,24 @@ public class PrincipalViewController implements Initializable {
     @FXML
     public void sendMessage()
     {
-        
+        System.out.println("SEND");
         if(!textToSend.getText().equals(null) && !textToSend.getText().equals(""))
         {
-            Text newMesssage = new Text("Moi: " + textToSend.getText() + "\n");
-            receivedText.getChildren().add(newMesssage);
+            try{
+                Text newMesssage = new Text("Moi: " + textToSend.getText() + "\n");
+                receivedText.getChildren().add(newMesssage);
+
+                Message message = new Message(client.getLogin(), null, textToSend.getText(), false);
+                client.getOut().writeObject(message);
+                client.getOut().flush();
+
+                /*client.getOut().println(textToSend.getText());
+                client.getOut().flush();*/
+                textToSend.setText("");
+            }catch(IOException e){
+                e.printStackTrace();
+            }
             
-            Message message = new Message(client.getLogin(), null, textToSend.getText());
-            
-            client.getOut().println(textToSend.getText());
-            client.getOut().flush();
-            textToSend.setText("");
         }
     }
     
@@ -75,12 +83,11 @@ public class PrincipalViewController implements Initializable {
         textToSend.setText("");
     }
     
-    public void receiveMessage(String message){
+    public void receiveMessage(Message message){
         Platform.runLater(
             () -> {
-                Text reveiveMessage = new Text(message);
-                Text newMesssage = new Text("Autrui: " + message + "\n");
-                receivedText.getChildren().add(newMesssage);
+                Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                receivedText.getChildren().add(reveiveMessage);
             }
           );
     }

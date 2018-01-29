@@ -5,12 +5,16 @@
  */
 package tp.irc.client;
 
+import com.sun.corba.se.pept.encoding.OutputObject;
 import ihm.FXMLDocumentController;
 //import ihm.IHM;
 import ihm.PrincipalViewController;
+import ihm.model.Message;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -26,8 +30,8 @@ public class Client {
     private int port;
     private String address;
     private Socket socket;
-    private PrintWriter out;
-    private BufferedReader in;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
     private PrincipalViewController controller;
     private String login;
     
@@ -57,8 +61,9 @@ public class Client {
             //Client.write("Demande de connexion");
             System.out.println("Demande de connexion");
             socket = new Socket(address, port);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
+            out.flush();
+            in = new ObjectInputStream(socket.getInputStream());
             System.out.println("Connexion établie avec le serveur, authentification");
             //Client.write("Connexion établie avec le serveur, authentification ");
 
@@ -71,6 +76,10 @@ public class Client {
             
             threadReceive.start();
             threadSend.start();
+            
+            Message messageIdentification = new Message(login, null, "", true);
+            out.writeObject(messageIdentification);
+            out.flush();
             
             /*if(IHM.isModeGraphique){
                 threadReceive.start();
@@ -119,11 +128,11 @@ public class Client {
         return socket;
     }
 
-    public PrintWriter getOut() {
+    public ObjectOutputStream getOut() {
         return out;
     }
 
-    public BufferedReader getIn() {
+    public ObjectInputStream getIn() {
         return in;
     }
     

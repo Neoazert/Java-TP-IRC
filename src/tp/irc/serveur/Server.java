@@ -5,6 +5,7 @@
  */
 package tp.irc.serveur;
 
+import ihm.model.Message;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,20 +45,33 @@ public class Server {
     }
     
     public void addClient(ConnectedClient client){
-        for(ConnectedClient ceClient : clients){
+        /*for(ConnectedClient ceClient : clients){
             ceClient.sendMessage("Le client " + client.getId() + " vient de se connecter");
-        }
+        }*/
         this.clients.add(client);
     }
     
-    public void broadcastMessage(String message, int id){
-        for(ConnectedClient client : clients)
+    public void broadcastMessage(Message message){
+        if(message.getLoginRecipient() == null)
         {
-            if(client.getId() != id)
+            for(ConnectedClient client : clients)
             {
-                client.sendMessage("Message de " + id + " : " + message);
+                if(!client.getLogin().equals(message.getLoginSender()))
+                { 
+                    client.sendMessage(message);
+                }
             }
         }
+        else{
+            for(ConnectedClient client : clients)
+            {
+                if(client.getLogin().equals(message.getLoginRecipient()))
+                { 
+                    client.sendMessage(message);
+                }
+            }
+        }
+        
     }
     
     public void disconnectedClient(ConnectedClient client){
@@ -65,7 +79,8 @@ public class Server {
         this.clients.remove(client);
         for(ConnectedClient ceClient : clients)
         {
-            client.sendMessage("Le client " + client.getId() + " nous a quitté");
+            Message message = new Message(null, null, "Le client " + client.getLogin() + " nous a quitté", false);
+            client.sendMessage(message);
         }
     }
     
