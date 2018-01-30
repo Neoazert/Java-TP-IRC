@@ -33,10 +33,21 @@ import tp.irc.client.Client;
  */
 public class PrincipalViewController implements Initializable {
     private Client client;
+    private String loginCaller; //login de la personne avec qui on est en conversation
 
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public void setLoginCaller(String loginCaller) {
+        this.loginCaller = loginCaller;
+    }
+
+    public String getLoginCaller() {
+        return loginCaller;
+    }
+    
+    
     
     @FXML
     TextArea textToSend;
@@ -59,15 +70,23 @@ public class PrincipalViewController implements Initializable {
     public void sendMessage()
     {
         System.out.println("SEND");
-        if(!textToSend.getText().equals(null) && !textToSend.getText().equals(""))
+        if(textToSend.getText() != null && !textToSend.getText().equals(""))
         {
             try{
                 Text newMesssage = new Text("Moi: " + textToSend.getText() + "\n");
                 receivedText.getChildren().add(newMesssage);
-
-                Message message = new Message(client.getLogin(), null, textToSend.getText(), false);
-                client.getOut().writeObject(message);
-                client.getOut().flush();
+                Message message = null;
+                if(loginCaller == null)
+                {
+                    message = new Message(client.getLogin(), null, textToSend.getText(), false);
+                    client.getOut().writeObject(message);
+                    client.getOut().flush();
+                }
+                else{
+                    message = new Message(client.getLogin(), loginCaller, textToSend.getText(), false);
+                    client.getOut().writeObject(message);
+                    client.getOut().flush();
+                }
 
                 /*client.getOut().println(textToSend.getText());
                 client.getOut().flush();*/
@@ -97,9 +116,9 @@ public class PrincipalViewController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
+   @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String link = "jdbc:mysql://localhost/java-tp-irc";
+        /*String link = "jdbc:mysql://localhost/java-tp-irc";
         String login = "root";
         String password = "";
         Connection cn = null;
@@ -139,7 +158,7 @@ public class PrincipalViewController implements Initializable {
                 }catch(SQLException e){
                         e.printStackTrace();
                 }
-        }
-    }    
+        }*/
+    }
     
 }

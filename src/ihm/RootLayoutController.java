@@ -5,6 +5,7 @@
  */
 package ihm;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,25 +14,41 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.AccessibleAttribute;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import tp.irc.client.Client;
 
 /**
  *
  * @author spada_000
  */
 public class RootLayoutController implements Initializable{
+    private Client client;
+    
     @FXML
     TabPane tabPane;
     @FXML
     ScrollPane scrollConnected;
     @FXML
     TextFlow connected;
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+    
     
     
     /**
@@ -54,9 +71,40 @@ public class RootLayoutController implements Initializable{
             while(rs.next())
             {
                 //Group group = new Group();
-                Label thisLogin = new Label(rs.getString("login"));
-                thisLogin.setId(rs.getString("login"));
-                thisLogin.setOnMouseClicked((event) -> System.out.println(thisLogin));
+                String pseudo = rs.getString("login");
+                Label thisLogin = new Label(pseudo);
+                thisLogin.setId(pseudo);
+                thisLogin.setOnMouseClicked((event) -> {
+                    boolean tabOpen = false;
+                    for(Tab tab : tabPane.getTabs())
+                    {
+                        if(tab.getText().equals(pseudo))
+                        {
+                            tabOpen = true;
+                        }
+                    }
+                    if(!tabOpen)
+                    {
+                        try{
+                            Tab tab = new Tab(pseudo);
+                            tab.setId(pseudo);
+
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                            Pane principalView = (Pane) loader.load();
+                            PrincipalViewController principalViewController = loader.getController();
+                            principalViewController.setLoginCaller(pseudo);
+                            principalViewController.setClient(client);
+                            tab.setContent(principalView);
+
+                            tabPane.getTabs().add(tab);
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                    
+                    
+                });
                 connected.getChildren().add(thisLogin);
                 //group.getChildren().add(thisLogin);
                 Label thisLoginConnected = new Label("(déconnecté)");

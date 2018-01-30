@@ -91,6 +91,7 @@ public class FXMLConnexionController implements Initializable {
                     principalViewController = loader2.getController();
                     Client client = new Client(ihmConnexion.getAddress(), ihmConnexion.getPort(), principalViewController, rs.getString("login"));
                     principalViewController.setClient(client);
+                    rootLayoutController.setClient(client);
                 }catch(IOException e){
                     e.printStackTrace();
                 }
