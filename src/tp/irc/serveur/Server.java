@@ -80,8 +80,9 @@ public class Server {
         this.clients.remove(client);
         for(ConnectedClient ceClient : clients)
         {
-            Message message = new Message(null, null, "Le client " + client.getLogin() + " nous a quitté", false);
-            client.sendMessage(message);
+            Message message = new Message(client.getLogin(), null, "Le client " + client.getLogin() + " nous a quitté", true);
+            message.setDisconnectedMessage(true);
+            ceClient.sendMessage(message);
         }
     }
     

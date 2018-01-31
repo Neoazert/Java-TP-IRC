@@ -53,6 +53,7 @@ public class RootLayoutController implements Initializable{
     }
     
     public void receiveMessage(Message message){
+        System.out.println("MESSAGE RECU");
         if(message.isIdentification())
         {
             if(message.getConnectedUsers() != null)
@@ -105,6 +106,27 @@ public class RootLayoutController implements Initializable{
                     
                     
                     
+                }
+            }
+            else if(message.isDisconnectedMessage())
+            {
+                System.out.println("DISCONNECTED MESSAGE");
+                String loginDisconnectedUser = message.getLoginSender();
+                int i = 0;
+                for(Node n : connected.getChildren())
+                {
+                    i++;
+                    final int num = i;
+                    if(n.getId().equals(loginDisconnectedUser))
+                    {
+                        Platform.runLater(
+                            () -> {
+                                connected.getChildren().remove(num);
+                                connected.getChildren().remove(n);
+                            }
+                          );
+                        
+                    }
                 }
             }
             else{

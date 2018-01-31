@@ -18,6 +18,7 @@ public class Message implements Serializable{
     private String message;
     private boolean identification; //Variable qui va servir à ConnectedClient de connaitre le login du client lorsque ce dernier se connecte
     private ArrayList<String> connectedUsers;
+    private boolean disconnectedMessage;
     
     public Message(String loginSender, String loginRecipient, String message, boolean identification)
     {
@@ -25,7 +26,18 @@ public class Message implements Serializable{
         this.loginSender = loginSender;
         this.loginRecipient = loginRecipient;
         this.message = message;
+        this.disconnectedMessage = false;
     }
+
+    public boolean isDisconnectedMessage() {
+        return disconnectedMessage;
+    }
+
+    public void setDisconnectedMessage(boolean disconnectedMessage) {
+        this.disconnectedMessage = disconnectedMessage;
+    }
+
+    
 
     public ArrayList getConnectedUsers() {
         return connectedUsers;
