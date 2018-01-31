@@ -6,6 +6,7 @@
 package ihm.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Message implements Serializable{
     private String loginRecipient;
     private String message;
     private boolean identification; //Variable qui va servir à ConnectedClient de connaitre le login du client lorsque ce dernier se connecte
+    private ArrayList<String> connectedUsers;
     
     public Message(String loginSender, String loginRecipient, String message, boolean identification)
     {
@@ -24,6 +26,16 @@ public class Message implements Serializable{
         this.loginRecipient = loginRecipient;
         this.message = message;
     }
+
+    public ArrayList getConnectedUsers() {
+        return connectedUsers;
+    }
+
+    public void setConnectedUsers(ArrayList connectedUsers) {
+        this.connectedUsers = connectedUsers;
+    }
+    
+    
 
     public String getLoginSender() {
         return loginSender;

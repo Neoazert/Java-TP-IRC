@@ -53,60 +53,163 @@ public class RootLayoutController implements Initializable{
     }
     
     public void receiveMessage(Message message){
-        if(message.getLoginRecipient() == null)
+        if(message.isIdentification())
         {
-            for(Tab tab : tabPane.getTabs())
+            if(message.getConnectedUsers() != null)
             {
-                if(tab.getText().equals("Général"))
+                for(Object lgn : message.getConnectedUsers())
                 {
-                    Pane contenu = (Pane)tab.getContent();
-                    for(Node n : contenu.getChildren())
+                    if(!lgn.equals(client.getLogin()))
                     {
-                        if(n.getId().equals("scrollReceivedText"))
-                        {
-                            
-                            Platform.runLater(
+                        String pseudo = (String)lgn;
+                        Label thisLogin = new Label(pseudo);
+                        thisLogin.setId(pseudo);
+                        thisLogin.setOnMouseClicked((event) -> {
+                            boolean tabOpen = false;
+                            for(Tab tab : tabPane.getTabs())
+                            {
+                                if(tab.getText().equals(pseudo))
+                                {
+                                    tabOpen = true;
+                                }
+                            }
+                            if(!tabOpen)
+                            {
+                                try{
+                                    Tab tab = new Tab(pseudo);
+                                    tab.setId(pseudo);
+
+                                    FXMLLoader loader = new FXMLLoader();
+                                    loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                                    Pane principalView = (Pane) loader.load();
+                                    PrincipalViewController principalViewController = loader.getController();
+                                    principalViewController.setLoginCaller(pseudo);
+                                    principalViewController.setClient(client);
+                                    tab.setContent(principalView);
+
+                                    tabPane.getTabs().add(tab);
+                                }catch(IOException e){
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        });
+                        Platform.runLater(
                             () -> {
-                                ScrollPane sp = (ScrollPane)n;
-                                Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
-                                TextFlow tf = (TextFlow)sp.getContent();
-                                tf.getChildren().add(reveiveMessage);
+                                connected.getChildren().add(thisLogin);
+                                connected.getChildren().add(new Text("\n"));
                             }
                           );
-                             
-                        }
                     }
+                    
+                    
+                    
                 }
             }
+            else{
+                String pseudo = message.getLoginSender();
+                Label thisLogin = new Label(pseudo);
+                thisLogin.setId(pseudo);
+                thisLogin.setOnMouseClicked((event) -> {
+                    boolean tabOpen = false;
+                    for(Tab tab : tabPane.getTabs())
+                    {
+                        if(tab.getText().equals(pseudo))
+                        {
+                            tabOpen = true;
+                        }
+                    }
+                    if(!tabOpen)
+                    {
+                        try{
+                            Tab tab = new Tab(pseudo);
+                            tab.setId(pseudo);
+
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                            Pane principalView = (Pane) loader.load();
+                            PrincipalViewController principalViewController = loader.getController();
+                            principalViewController.setLoginCaller(pseudo);
+                            principalViewController.setClient(client);
+                            tab.setContent(principalView);
+
+                            tabPane.getTabs().add(tab);
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                });
+                Platform.runLater(
+                    () -> {
+                        connected.getChildren().add(thisLogin);
+                        connected.getChildren().add(new Text("\n"));
+                    }
+                  );
+            }
+
         }
         else{
-            for(Tab tab : tabPane.getTabs())
+            if(message.getLoginRecipient() == null)
             {
-                if(tab.getText().equals(message.getLoginSender()))
+                for(Tab tab : tabPane.getTabs())
                 {
-                    Pane contenu = (Pane)tab.getContent();
-                    for(Node n : contenu.getChildren())
+                    if(tab.getText().equals("Général"))
                     {
-                        if(n.getId().equals("scrollReceivedText"))
+                        Pane contenu = (Pane)tab.getContent();
+                        for(Node n : contenu.getChildren())
                         {
-                            Platform.runLater(
-                            () -> {
-                                ScrollPane sp = (ScrollPane)n;
-                                Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
-                                TextFlow tf = (TextFlow)sp.getContent();
-                                tf.getChildren().add(reveiveMessage);
+                            if(n.getId().equals("scrollReceivedText"))
+                            {
+
+                                Platform.runLater(
+                                () -> {
+                                    ScrollPane sp = (ScrollPane)n;
+                                    Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                                    TextFlow tf = (TextFlow)sp.getContent();
+                                    tf.getChildren().add(reveiveMessage);
+                                }
+                              );
+
                             }
-                          );
+                        }
+                    }
+                }
+            }
+            else{
+                for(Tab tab : tabPane.getTabs())
+                {
+                    if(tab.getText().equals(message.getLoginSender()))
+                    {
+                        Pane contenu = (Pane)tab.getContent();
+                        for(Node n : contenu.getChildren())
+                        {
+                            if(n.getId().equals("scrollReceivedText"))
+                            {
+                                Platform.runLater(
+                                () -> {
+                                    ScrollPane sp = (ScrollPane)n;
+                                    Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                                    TextFlow tf = (TextFlow)sp.getContent();
+                                    tf.getChildren().add(reveiveMessage);
+                                }
+                              );
+                            }
                         }
                     }
                 }
             }
         }
+        
     }
+    
+    
     
     public void initializeUsersList()
     {
-        String link = "jdbc:mysql://localhost/java-tp-irc";
+        /*String link = "jdbc:mysql://localhost/java-tp-irc";
         String login = "root";
         String password = "";
         Connection cn = null;
@@ -181,7 +284,7 @@ public class RootLayoutController implements Initializable{
                 }catch(SQLException e){
                         e.printStackTrace();
                 }
-        }
+        }*/
     }
     
     /**

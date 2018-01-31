@@ -36,7 +36,6 @@ public class ClientReceive implements Runnable {
         Message message = null;
         while (isActive) {
             try {
-                System.out.println("TEST");
                 Object obj = in.readObject();
                 message = (Message)obj;
                 if (message != null) {
