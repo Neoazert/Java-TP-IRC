@@ -9,6 +9,7 @@ import com.sun.corba.se.pept.encoding.OutputObject;
 import ihm.FXMLDocumentController;
 //import ihm.IHM;
 import ihm.PrincipalViewController;
+import ihm.RootLayoutController;
 import ihm.model.Message;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,28 +34,26 @@ public class Client {
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private PrincipalViewController controller;
+    private RootLayoutController rootController;
     private String login;
     
     public String getLogin()
     {
         return this.login;
     }
-    
-    public void setController(PrincipalViewController controller)
-    {
-        this.controller = controller;
-    }
-    
-    public PrincipalViewController getController()
-    {
-        return this.controller;
+
+    public RootLayoutController getRootController() {
+        return rootController;
     }
 
-    public Client(String ipAdress, Integer ServPort, PrincipalViewController controller, String login) {
+    public void setRootController(RootLayoutController rootController) {
+        this.rootController = rootController;
+    }
+
+    public Client(String ipAdress, Integer ServPort, RootLayoutController rootController, String login) {
         this.port = ServPort;
         this.address = ipAdress;
-        this.controller = controller;
+        this.rootController = rootController;
         this.login = login;
         
         try {

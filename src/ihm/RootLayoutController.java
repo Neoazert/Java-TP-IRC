@@ -5,6 +5,7 @@
  */
 package ihm;
 
+import ihm.model.Message;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -13,10 +14,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.AccessibleAttribute;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -49,7 +52,83 @@ public class RootLayoutController implements Initializable{
         this.client = client;
     }
     
-    
+    public void receiveMessage(Message message){
+        if(message.getLoginRecipient() == null)
+        {
+            for(Tab tab : tabPane.getTabs())
+            {
+                if(tab.getText().equals("Général"))
+                {
+                    Pane contenu = (Pane)tab.getContent();
+                    for(Node n : contenu.getChildren())
+                    {
+                        if(n.getId().equals("scrollReceivedText"))
+                        {
+                            
+                            Platform.runLater(
+                            () -> {
+                                ScrollPane sp = (ScrollPane)n;
+                                Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                                TextFlow tf = (TextFlow)sp.getContent();
+                                tf.getChildren().add(reveiveMessage);
+                            }
+                          );
+                            
+                            
+                        }
+                    }
+                    /*PrincipalViewController principalViewController = (PrincipalViewController)contenu.getUserData();
+                    principalViewController.receiveMessage(message);*/
+                }
+            }
+        }
+        else{
+            for(Tab tab : tabPane.getTabs())
+            {
+                if(tab.getText().equals(message.getLoginRecipient()))
+                {
+                    Pane contenu = (Pane)tab.getContent();
+                    for(Node n : contenu.getChildren())
+                    {
+                        if(n.getId().equals("scrollReceivedText"))
+                        {
+                            Platform.runLater(
+                            () -> {
+                                ScrollPane sp = (ScrollPane)n;
+                                Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                                TextFlow tf = (TextFlow)sp.getContent();
+                                tf.getChildren().add(reveiveMessage);
+                            }
+                          );
+                        }
+                    }
+                    /*PrincipalViewController principalViewController = (PrincipalViewController)contenu.getUserData();
+                    principalViewController.receiveMessage(message);*/
+                }
+            }
+        }
+        
+       /*System.out.println("receiveMessage");
+        Platform.runLater(
+            () -> {
+                if(loginCaller == null && message.getLoginRecipient() == null)
+                {
+                    System.out.println("IF");
+                    Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                    receivedText.getChildren().add(reveiveMessage);
+                }
+                else{
+                    System.out.println("ELSE");
+                    if(loginCaller != null && loginCaller.equals(message.getLoginSender()))
+                    {
+                        System.out.println("ELSE IF");
+                        Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                        receivedText.getChildren().add(reveiveMessage);
+                    }
+                }
+            }
+          );*/
+    }
     
     /**
      * Initializes the controller class.

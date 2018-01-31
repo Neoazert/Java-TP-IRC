@@ -89,7 +89,7 @@ public class FXMLConnexionController implements Initializable {
                     Scene scene = new Scene(borderPane);
                     ihmConnexion.getPrimaryStage().setScene(scene);
                     principalViewController = loader2.getController();
-                    Client client = new Client(ihmConnexion.getAddress(), ihmConnexion.getPort(), principalViewController, rs.getString("login"));
+                    Client client = new Client(ihmConnexion.getAddress(), ihmConnexion.getPort(), rootLayoutController, rs.getString("login"));
                     principalViewController.setClient(client);
                     rootLayoutController.setClient(client);
                 }catch(IOException e){

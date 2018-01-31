@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/F:/Java/workspace/TP3/src/ihm/model/Message.java</file>
+            <file>file:/F:/Java/workspace/TP3/src/ihm/FXMLConnexionController.java</file>
+            <file>file:/F:/Java/workspace/TP3/src/ihm/RootLayoutController.java</file>
+            <file>file:/F:/Java/workspace/TP3/src/tp/irc/client/ClientReceive.java</file>
+            <file>file:/F:/Java/workspace/TP3/src/tp/irc/client/Client.java</file>
+            <file>file:/F:/Java/workspace/TP3/src/ihm/PrincipalViewController.java</file>
+        </group>
     </open-files>
 </project-private>

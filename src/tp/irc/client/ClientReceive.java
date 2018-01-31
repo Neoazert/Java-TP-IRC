@@ -41,7 +41,7 @@ public class ClientReceive implements Runnable {
                 message = (Message)obj;
                 if (message != null) {
                     //System.out.println(message);
-                    client.getController().receiveMessage(message);
+                    client.getRootController().receiveMessage(message);
                 } else {
                     isActive = false;
                 }

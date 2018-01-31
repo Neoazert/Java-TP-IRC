@@ -105,10 +105,24 @@ public class PrincipalViewController implements Initializable {
     }
     
     public void receiveMessage(Message message){
+        System.out.println("receiveMessage");
         Platform.runLater(
             () -> {
-                Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
-                receivedText.getChildren().add(reveiveMessage);
+                if(loginCaller == null && message.getLoginRecipient() == null)
+                {
+                    System.out.println("IF");
+                    Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                    receivedText.getChildren().add(reveiveMessage);
+                }
+                else{
+                    System.out.println("ELSE");
+                    if(loginCaller != null && loginCaller.equals(message.getLoginSender()))
+                    {
+                        System.out.println("ELSE IF");
+                        Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
+                        receivedText.getChildren().add(reveiveMessage);
+                    }
+                }
             }
           );
     }
