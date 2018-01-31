@@ -117,7 +117,7 @@ public class RootLayoutController implements Initializable{
                 {
                     i++;
                     final int num = i;
-                    if(n.getId().equals(loginDisconnectedUser))
+                    if(n.getId() != null && n.getId().equals(loginDisconnectedUser))
                     {
                         Platform.runLater(
                             () -> {

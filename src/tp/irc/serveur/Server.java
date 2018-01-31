@@ -76,11 +76,12 @@ public class Server {
     }
     
     public void disconnectedClient(ConnectedClient client){
+        String login = client.getLogin();
         client.closeClient();
         this.clients.remove(client);
         for(ConnectedClient ceClient : clients)
         {
-            Message message = new Message(client.getLogin(), null, "Le client " + client.getLogin() + " nous a quitté", true);
+            Message message = new Message(login, null, "Le client " + client.getLogin() + " nous a quitté", true);
             message.setDisconnectedMessage(true);
             ceClient.sendMessage(message);
         }
