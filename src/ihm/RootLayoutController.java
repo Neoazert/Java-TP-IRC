@@ -83,10 +83,13 @@ public class RootLayoutController implements Initializable{
             }
         }
         else{
+            System.out.println("BETNJYRENYRNYEHTENETZNENETNTEAA");
             for(Tab tab : tabPane.getTabs())
             {
-                if(tab.getText().equals(message.getLoginRecipient()))
+                System.out.println("tab text = " + tab.getText() + " | loginrecipient = " + message.getLoginRecipient());
+                if(tab.getText().equals(message.getLoginSender()))
                 {
+                    System.out.println("IN THE IF");
                     Pane contenu = (Pane)tab.getContent();
                     for(Node n : contenu.getChildren())
                     {
@@ -130,11 +133,8 @@ public class RootLayoutController implements Initializable{
           );*/
     }
     
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initializeUsersList()
+    {
         String link = "jdbc:mysql://localhost/java-tp-irc";
         String login = "root";
         String password = "";
@@ -150,50 +150,54 @@ public class RootLayoutController implements Initializable{
             while(rs.next())
             {
                 //Group group = new Group();
-                String pseudo = rs.getString("login");
-                Label thisLogin = new Label(pseudo);
-                thisLogin.setId(pseudo);
-                thisLogin.setOnMouseClicked((event) -> {
-                    boolean tabOpen = false;
-                    for(Tab tab : tabPane.getTabs())
-                    {
-                        if(tab.getText().equals(pseudo))
+                if(!client.getLogin().equals(rs.getString("login")))
+                {
+                    String pseudo = rs.getString("login");
+                    Label thisLogin = new Label(pseudo);
+                    thisLogin.setId(pseudo);
+                    thisLogin.setOnMouseClicked((event) -> {
+                        boolean tabOpen = false;
+                        for(Tab tab : tabPane.getTabs())
                         {
-                            tabOpen = true;
+                            if(tab.getText().equals(pseudo))
+                            {
+                                tabOpen = true;
+                            }
                         }
-                    }
-                    if(!tabOpen)
-                    {
-                        try{
-                            Tab tab = new Tab(pseudo);
-                            tab.setId(pseudo);
+                        if(!tabOpen)
+                        {
+                            try{
+                                Tab tab = new Tab(pseudo);
+                                tab.setId(pseudo);
 
-                            FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
-                            Pane principalView = (Pane) loader.load();
-                            PrincipalViewController principalViewController = loader.getController();
-                            principalViewController.setLoginCaller(pseudo);
-                            principalViewController.setClient(client);
-                            tab.setContent(principalView);
+                                FXMLLoader loader = new FXMLLoader();
+                                loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                                Pane principalView = (Pane) loader.load();
+                                PrincipalViewController principalViewController = loader.getController();
+                                principalViewController.setLoginCaller(pseudo);
+                                principalViewController.setClient(client);
+                                tab.setContent(principalView);
 
-                            tabPane.getTabs().add(tab);
-                        }catch(IOException e){
-                            e.printStackTrace();
+                                tabPane.getTabs().add(tab);
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                    
-                    
-                });
-                connected.getChildren().add(thisLogin);
-                //group.getChildren().add(thisLogin);
-                Label thisLoginConnected = new Label("(déconnecté)");
-                thisLoginConnected.setId("conected_" + rs.getString("login"));
-                connected.getChildren().add(thisLoginConnected);
-                connected.getChildren().add(new Text("\n"));
-                //group.getChildren().add(thisLoginConnected);
-                //connected.getChildren().add(group);
+
+
+                    });
+                    connected.getChildren().add(thisLogin);
+                    //group.getChildren().add(thisLogin);
+                    Label thisLoginConnected = new Label("(déconnecté)");
+                    thisLoginConnected.setId("conected_" + rs.getString("login"));
+                    connected.getChildren().add(thisLoginConnected);
+                    connected.getChildren().add(new Text("\n"));
+                    //group.getChildren().add(thisLoginConnected);
+                    //connected.getChildren().add(group);
+
+                    //System.out.println(rs.getString("login"));
+                }
                 
-                //System.out.println(rs.getString("login"));
             }
         }catch(SQLException e){
                 e.printStackTrace();
@@ -207,6 +211,14 @@ public class RootLayoutController implements Initializable{
                         e.printStackTrace();
                 }
         }
+    }
+    
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
     }   
     
 }

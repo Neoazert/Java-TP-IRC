@@ -92,6 +92,7 @@ public class FXMLConnexionController implements Initializable {
                     Client client = new Client(ihmConnexion.getAddress(), ihmConnexion.getPort(), rootLayoutController, rs.getString("login"));
                     principalViewController.setClient(client);
                     rootLayoutController.setClient(client);
+                    rootLayoutController.initializeUsersList();
                 }catch(IOException e){
                     e.printStackTrace();
                 }
