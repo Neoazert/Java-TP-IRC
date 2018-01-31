@@ -73,23 +73,17 @@ public class RootLayoutController implements Initializable{
                                 tf.getChildren().add(reveiveMessage);
                             }
                           );
-                            
-                            
+                             
                         }
                     }
-                    /*PrincipalViewController principalViewController = (PrincipalViewController)contenu.getUserData();
-                    principalViewController.receiveMessage(message);*/
                 }
             }
         }
         else{
-            System.out.println("BETNJYRENYRNYEHTENETZNENETNTEAA");
             for(Tab tab : tabPane.getTabs())
             {
-                System.out.println("tab text = " + tab.getText() + " | loginrecipient = " + message.getLoginRecipient());
                 if(tab.getText().equals(message.getLoginSender()))
                 {
-                    System.out.println("IN THE IF");
                     Pane contenu = (Pane)tab.getContent();
                     for(Node n : contenu.getChildren())
                     {
@@ -105,32 +99,9 @@ public class RootLayoutController implements Initializable{
                           );
                         }
                     }
-                    /*PrincipalViewController principalViewController = (PrincipalViewController)contenu.getUserData();
-                    principalViewController.receiveMessage(message);*/
                 }
             }
         }
-        
-       /*System.out.println("receiveMessage");
-        Platform.runLater(
-            () -> {
-                if(loginCaller == null && message.getLoginRecipient() == null)
-                {
-                    System.out.println("IF");
-                    Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
-                    receivedText.getChildren().add(reveiveMessage);
-                }
-                else{
-                    System.out.println("ELSE");
-                    if(loginCaller != null && loginCaller.equals(message.getLoginSender()))
-                    {
-                        System.out.println("ELSE IF");
-                        Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
-                        receivedText.getChildren().add(reveiveMessage);
-                    }
-                }
-            }
-          );*/
     }
     
     public void initializeUsersList()

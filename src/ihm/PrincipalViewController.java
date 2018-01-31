@@ -16,12 +16,15 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import tp.irc.client.Client;
@@ -69,7 +72,6 @@ public class PrincipalViewController implements Initializable {
     @FXML
     public void sendMessage()
     {
-        System.out.println("SEND");
         if(textToSend.getText() != null && !textToSend.getText().equals(""))
         {
             try{
@@ -86,6 +88,52 @@ public class PrincipalViewController implements Initializable {
                     message = new Message(client.getLogin(), loginCaller, textToSend.getText(), false);
                     client.getOut().writeObject(message);
                     client.getOut().flush();
+                    
+                    String link = "jdbc:mysql://localhost/java-tp-irc";
+                    String login = "root";
+                    String password = "";
+                    Connection cn = null;
+                    Statement st = null;
+                    ResultSet rs = null;
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        cn = DriverManager.getConnection(link, login, password);
+                        st = cn.createStatement();
+                        String sql = "INSERT INTO messages(message, date) VALUES('" + textToSend.getText() + "', NOW())";
+                        st.executeUpdate(sql);
+                        sql = " SELECT LAST_INSERT_ID() id";
+                        rs = st.executeQuery(sql);
+                        if(rs.next())
+                        {
+                            int idMessage = rs.getInt("id");
+                            String sql2 = "SELECT id FROM utilisateur WHERE login = '" + client.getLogin() + "'";
+                            rs = st.executeQuery(sql2);
+                            if(rs.next())
+                            {
+                                int idSender = rs.getInt("id");
+                                String sql3 = "SELECT id FROM utilisateur WHERE login = '" + loginCaller + "'";
+                                rs = st.executeQuery(sql3);
+                                if(rs.next())
+                                {
+                                    int idRecipient = rs.getInt("id");
+                                    String sql4 = "INSERT INTO messages_utilisateurs(message_id, expediteur_id, destinataire_id) VALUES(" + idMessage + ", " + idSender + ", " + idRecipient + ")";
+                                    st.executeUpdate(sql4);
+                                }
+                            }
+                        }
+                    }catch(SQLException e){
+                            e.printStackTrace();
+                    }catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                    }finally {
+                            try{
+                                    cn.close();
+                                    st.close();
+                            }catch(SQLException e){
+                                    e.printStackTrace();
+                            }
+                    }
+                    
                 }
 
                 /*client.getOut().println(textToSend.getText());
@@ -105,20 +153,16 @@ public class PrincipalViewController implements Initializable {
     }
     
     public void receiveMessage(Message message){
-        System.out.println("receiveMessage");
         Platform.runLater(
             () -> {
                 if(loginCaller == null && message.getLoginRecipient() == null)
                 {
-                    System.out.println("IF");
                     Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
                     receivedText.getChildren().add(reveiveMessage);
                 }
                 else{
-                    System.out.println("ELSE");
                     if(loginCaller != null && loginCaller.equals(message.getLoginSender()))
                     {
-                        System.out.println("ELSE IF");
                         Text reveiveMessage = new Text(message.getLoginSender() + ": " + message.getMessage() + "\n");
                         receivedText.getChildren().add(reveiveMessage);
                     }
