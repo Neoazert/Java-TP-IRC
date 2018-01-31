@@ -20,10 +20,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.AccessibleAttribute;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -52,6 +55,111 @@ public class RootLayoutController implements Initializable{
         this.client = client;
     }
     
+    //fonction qui s'exécute lorsque l'on clique sur le login d'un utilisateur connecté
+    public void clickOnLogin(String pseudo)
+    {
+        boolean tabOpen = false;
+        for(Tab tab : tabPane.getTabs())
+        {
+            if(tab.getText().equals(pseudo))
+            {
+                tabOpen = true;
+            }
+        }
+        if(!tabOpen)
+        {
+            try{
+                Tab tab = new Tab(pseudo);
+                tab.setId(pseudo);
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                Pane principalView = (Pane) loader.load();
+                PrincipalViewController principalViewController = loader.getController();
+                principalViewController.setLoginCaller(pseudo);
+                principalViewController.setClient(client);
+                getPreviousMessages(pseudo, principalViewController);
+                tab.setContent(principalView);
+
+                tabPane.getTabs().add(tab);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+    
+    public void getPreviousMessages(String loginCorrespondent, PrincipalViewController ctrl)
+    {
+        String url = "jdbc:mysql://localhost/java-tp-irc";
+        String login = "root";
+        String password = "";
+        Connection cn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            cn = DriverManager.getConnection(url, login, password);
+            st = cn.createStatement();
+            String sql = "SELECT id FROM utilisateur WHERE login = '" + client.getLogin() +"'";
+            rs = st.executeQuery(sql);
+            if(rs.next())
+            {
+               System.out.println("SQL1");
+               int idClient = rs.getInt("id");
+               
+               sql = "SELECT id FROM utilisateur WHERE login = '" + loginCorrespondent +"'";
+               rs = st.executeQuery(sql);
+               if(rs.next())
+               {
+                   System.out.println("SQL2");
+                   int idCorrespondent = rs.getInt("id");
+                   
+                   sql = "SELECT message_id, expediteur_id FROM messages_utilisateurs WHERE expediteur_id IN(" + idClient + ", " + idCorrespondent + ") OR destinataire_id IN(" + idClient + ", " + idCorrespondent + ")";
+                   rs = st.executeQuery(sql);
+                   while(rs.next())
+                   {
+                       System.out.println("SQL3");
+                       int idMessage = rs.getInt("message_id");
+                       int idSenderMessage = rs.getInt("expediteur_id");
+                       String sql2 = "SELECT message FROM messages WHERE id = " + idMessage + " ORDER BY date DESC";
+                       Statement st2 = cn.createStatement();
+                       ResultSet rs2 = st2.executeQuery(sql2);
+                       if(rs2.next())
+                       {
+                           System.out.println("FIN SQL");
+                           String msg = "";
+                           if(idSenderMessage == idClient)
+                           {
+                               msg = "Moi: " + rs2.getString("message") + "\n";
+                           }
+                           else{
+                               msg = loginCorrespondent + ": " + rs2.getString("message") + "\n";
+                           }
+                           final String messg = msg;
+                           Platform.runLater(
+                            () -> {                           
+                                Text txt = new Text(messg);
+                                ctrl.receivedText.getChildren().add(txt);
+                            }
+                          );
+                       }
+                   }
+               }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+                try{
+                        cn.close();
+                        st.close();
+                }catch(SQLException e){
+                        e.printStackTrace();
+                }
+        }
+    }
+    
     public void receiveMessage(Message message){
         System.out.println("MESSAGE RECU");
         if(message.isIdentification())
@@ -65,37 +173,7 @@ public class RootLayoutController implements Initializable{
                         String pseudo = (String)lgn;
                         Label thisLogin = new Label(pseudo);
                         thisLogin.setId(pseudo);
-                        thisLogin.setOnMouseClicked((event) -> {
-                            boolean tabOpen = false;
-                            for(Tab tab : tabPane.getTabs())
-                            {
-                                if(tab.getText().equals(pseudo))
-                                {
-                                    tabOpen = true;
-                                }
-                            }
-                            if(!tabOpen)
-                            {
-                                try{
-                                    Tab tab = new Tab(pseudo);
-                                    tab.setId(pseudo);
-
-                                    FXMLLoader loader = new FXMLLoader();
-                                    loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
-                                    Pane principalView = (Pane) loader.load();
-                                    PrincipalViewController principalViewController = loader.getController();
-                                    principalViewController.setLoginCaller(pseudo);
-                                    principalViewController.setClient(client);
-                                    tab.setContent(principalView);
-
-                                    tabPane.getTabs().add(tab);
-                                }catch(IOException e){
-                                    e.printStackTrace();
-                                }
-                            }
-
-
-                        });
+                        thisLogin.setOnMouseClicked((event) -> clickOnLogin(pseudo));
                         Platform.runLater(
                             () -> {
                                 connected.getChildren().add(thisLogin);
@@ -133,37 +211,7 @@ public class RootLayoutController implements Initializable{
                 String pseudo = message.getLoginSender();
                 Label thisLogin = new Label(pseudo);
                 thisLogin.setId(pseudo);
-                thisLogin.setOnMouseClicked((event) -> {
-                    boolean tabOpen = false;
-                    for(Tab tab : tabPane.getTabs())
-                    {
-                        if(tab.getText().equals(pseudo))
-                        {
-                            tabOpen = true;
-                        }
-                    }
-                    if(!tabOpen)
-                    {
-                        try{
-                            Tab tab = new Tab(pseudo);
-                            tab.setId(pseudo);
-
-                            FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
-                            Pane principalView = (Pane) loader.load();
-                            PrincipalViewController principalViewController = loader.getController();
-                            principalViewController.setLoginCaller(pseudo);
-                            principalViewController.setClient(client);
-                            tab.setContent(principalView);
-
-                            tabPane.getTabs().add(tab);
-                        }catch(IOException e){
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                });
+                thisLogin.setOnMouseClicked((event) -> clickOnLogin(pseudo));
                 Platform.runLater(
                     () -> {
                         connected.getChildren().add(thisLogin);
