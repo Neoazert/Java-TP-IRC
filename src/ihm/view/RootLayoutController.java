@@ -69,7 +69,7 @@ public class RootLayoutController implements Initializable{
                 tab.setId(pseudo);
 
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                loader.setLocation(IHMConnexion.class.getResource("view/PrincipalView.fxml"));
                 Pane principalView = (Pane) loader.load();
                 PrincipalViewController principalViewController = loader.getController();
                 principalViewController.setLoginCaller(pseudo);

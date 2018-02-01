@@ -74,12 +74,12 @@ public class FXMLConnexionController implements Initializable {
             {
                 try{
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(IHMConnexion.class.getResource("RootLayout.fxml"));
+                    loader.setLocation(IHMConnexion.class.getResource("view/RootLayout.fxml"));
                     BorderPane borderPane = (BorderPane) loader.load();
                     RootLayoutController rootLayoutController = loader.getController();
                     
                     FXMLLoader loader2 = new FXMLLoader();
-                    loader2.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
+                    loader2.setLocation(IHMConnexion.class.getResource("view/PrincipalView.fxml"));
                     Pane principalView = (Pane) loader2.load();
                     
                     Tab tab = new Tab("Général");

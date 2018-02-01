@@ -41,7 +41,7 @@ public class IHMConnexion extends Application {
     public void start(Stage stage) throws Exception {
         this.primaryStage = stage;
         IHMConnexion.isModeGraphique = true;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLConnexion.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/FXMLConnexion.fxml"));
         Parent root = (Parent)loader.load();
         controllerConnexion = (FXMLConnexionController)loader.getController();
         

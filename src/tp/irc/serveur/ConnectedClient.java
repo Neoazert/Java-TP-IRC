@@ -64,30 +64,30 @@ public class ConnectedClient implements Runnable{
         {
             try {
                 Object obj = in.readObject();
-                Message message = (Message) obj;
-                if(message.isIdentification()) //Si le message est un message d'identification (message envoyé automatiquement lorsqu'un client se connecte)
+                if(obj != null)
                 {
-                    this.login = message.getLoginSender();
-                    server.broadcastMessage(message);
-                    
-                    //On crée un nouveau message pour envoyer la liste des utilisateurs connectes au nouveau client
-                    Message msg = new Message(message.getLoginSender(), message.getLoginSender(), null, true);
-                    ArrayList listLoginClientsConnected = new ArrayList<String>();
-                    for(ConnectedClient cntClient : server.getClients())
+                    Message message = (Message) obj;
+                    if(message.isIdentification()) //Si le message est un message d'identification (message envoyé automatiquement lorsqu'un client se connecte)
                     {
-                        listLoginClientsConnected.add(cntClient.getLogin());
-                    }
-                    msg.setConnectedUsers(listLoginClientsConnected);
-                    sendMessage(msg);
-                }
-                else{
-                    if(message != null)
-                    {
+                        this.login = message.getLoginSender();
                         server.broadcastMessage(message);
+
+                        //On crée un nouveau message pour envoyer la liste des utilisateurs connectes au nouveau client
+                        Message msg = new Message(message.getLoginSender(), message.getLoginSender(), null, true);
+                        ArrayList listLoginClientsConnected = new ArrayList<String>();
+                        for(ConnectedClient cntClient : server.getClients())
+                        {
+                            listLoginClientsConnected.add(cntClient.getLogin());
+                        }
+                        msg.setConnectedUsers(listLoginClientsConnected);
+                        sendMessage(msg);
                     }
                     else{
-                        isActive = false;
+                        server.broadcastMessage(message);
                     }
+                }
+                else{
+                       isActive = false;
                 }
             } catch (IOException ex) {
                 isActive = false;
