@@ -84,6 +84,7 @@ public class FXMLConnexionController implements Initializable {
                     
                     Tab tab = new Tab("Général");
                     tab.setContent(principalView);
+                    tab.setClosable(false);
                     rootLayoutController.tabPane.getTabs().add(tab);
                     
                     Scene scene = new Scene(borderPane);

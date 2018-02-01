@@ -94,6 +94,8 @@ public class ConnectedClient implements Runnable{
                 Logger.getLogger(ConnectedClient.class.getName()).log(Level.SEVERE, null, ex);
             }catch(ClassNotFoundException e){
                 e.printStackTrace();
+            }catch(Exception e){
+                e.printStackTrace();
             }
         }
         
