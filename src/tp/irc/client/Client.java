@@ -5,23 +5,13 @@
  */
 package tp.irc.client;
 
-import com.sun.corba.se.pept.encoding.OutputObject;
-import ihm.FXMLDocumentController;
-//import ihm.IHM;
-import ihm.PrincipalViewController;
 import ihm.RootLayoutController;
 import ihm.model.Message;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -57,15 +47,12 @@ public class Client {
         this.login = login;
         
         try {
-
-            //Client.write("Demande de connexion");
             System.out.println("Demande de connexion");
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
             System.out.println("Connexion établie avec le serveur, authentification");
-            //Client.write("Connexion établie avec le serveur, authentification ");
 
             ClientReceive clientReceive = new ClientReceive(this, in);
             ClientSend clientSend = new ClientSend(out);
@@ -77,29 +64,17 @@ public class Client {
             threadReceive.start();
             threadSend.start();
             
+            //Lors de la création d'un client, on envoit un message au server pour que le ConnectedClient sache quel est le login du client qui lui est lié
             Message messageIdentification = new Message(login, null, "", true);
             out.writeObject(messageIdentification);
             out.flush();
-            
-            /*if(IHM.isModeGraphique){
-                threadReceive.start();
-                FXMLDocumentController.initConnection(out, in,this);
-            }
-                
-            else{
-                threadReceive.start();
-                threadSend.start();
-            }*/
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
-           // Client.write("Impossible de se connecter à l'adresse " + address + "\n" + e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            //Client.write("Aucun serveur à l'écoute du port " + port + "\n" + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            //Client.write("Fatal Error: " + e.getMessage());
         }
 
     }
@@ -112,7 +87,6 @@ public class Client {
             System.exit(0);
         } catch (IOException ex) {
             ex.printStackTrace();
-            //Client.write("Error while disconnecting server :" + ex.getMessage());
         }
     }
 
@@ -135,14 +109,6 @@ public class Client {
     public ObjectInputStream getIn() {
         return in;
     }
-    
-    /*public static void write(String m){
-         if(IHMC.isModeGraphique)
-             
-             IHM.controller.FXtextRecived.setText(IHM.controller.FXtextRecived.getText() + "\n" + m);
-         else
-             System.out.println(m);
-    }*/
     
 
 }

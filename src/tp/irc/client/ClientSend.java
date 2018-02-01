@@ -5,17 +5,14 @@
  */
 package tp.irc.client;
 
-import ihm.FXMLDocumentController;
 import java.io.ObjectOutputStream;
-//import ihm.IHM;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
  *
  * @author p1502985
  */
-public class ClientSend implements Runnable {
+public class ClientSend implements Runnable { //Classe obsolète pour lorsque l'on utilise l'interface graphique
 
     private ObjectOutputStream out;
 
@@ -36,8 +33,6 @@ public class ClientSend implements Runnable {
             
             out.println(message);
             out.flush();*/
-            /*if(!IHM.isModeGraphique)
-                out.flush();*/
 
         }
 

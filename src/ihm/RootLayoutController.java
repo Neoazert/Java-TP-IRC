@@ -18,17 +18,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.AccessibleAttribute;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import tp.irc.client.Client;
@@ -58,6 +53,7 @@ public class RootLayoutController implements Initializable{
     //fonction qui s'exécute lorsque l'on clique sur le login d'un utilisateur connecté
     public void clickOnLogin(String pseudo)
     {
+        //On vérifie d'abord que l'onglet n'est pas déjà ouvert
         boolean tabOpen = false;
         for(Tab tab : tabPane.getTabs())
         {
@@ -66,7 +62,7 @@ public class RootLayoutController implements Initializable{
                 tabOpen = true;
             }
         }
-        if(!tabOpen)
+        if(!tabOpen) //si l'onglet n'est pas déjà ouvert, on en crée un avec la vue PrincipalView à l'intérieur
         {
             try{
                 Tab tab = new Tab(pseudo);
@@ -90,6 +86,7 @@ public class RootLayoutController implements Initializable{
 
     }
     
+    //fonction pour récupérer l'historique des messages pour les conversations individuelles
     public void getPreviousMessages(String loginCorrespondent, PrincipalViewController ctrl)
     {
         String url = "jdbc:mysql://localhost/java-tp-irc";
@@ -102,33 +99,32 @@ public class RootLayoutController implements Initializable{
             Class.forName("com.mysql.jdbc.Driver");
             cn = DriverManager.getConnection(url, login, password);
             st = cn.createStatement();
-            String sql = "SELECT id FROM utilisateur WHERE login = '" + client.getLogin() +"'";
+            String sql = "SELECT id FROM utilisateur WHERE login = '" + client.getLogin() +"'"; //On récupère l'id en bdd du client
             rs = st.executeQuery(sql);
             if(rs.next())
             {
-               System.out.println("SQL1");
                int idClient = rs.getInt("id");
                
-               sql = "SELECT id FROM utilisateur WHERE login = '" + loginCorrespondent +"'";
+               sql = "SELECT id FROM utilisateur WHERE login = '" + loginCorrespondent +"'"; //On récupère l'id en bdd du correspondant
                rs = st.executeQuery(sql);
                if(rs.next())
                {
-                   System.out.println("SQL2");
                    int idCorrespondent = rs.getInt("id");
                    
+                   //On récupère l'id des messages liés au client et à son correspondant, ainsi que l'id de l'expéditeur pour savoir s'il s'agit d'un message reçu ou envoyé par ce client
                    sql = "SELECT message_id, expediteur_id FROM messages_utilisateurs WHERE expediteur_id IN(" + idClient + ", " + idCorrespondent + ") OR destinataire_id IN(" + idClient + ", " + idCorrespondent + ")";
                    rs = st.executeQuery(sql);
                    while(rs.next())
                    {
-                       System.out.println("SQL3");
                        int idMessage = rs.getInt("message_id");
                        int idSenderMessage = rs.getInt("expediteur_id");
+                       
+                       //On récupère le message grâce à son id
                        String sql2 = "SELECT message FROM messages WHERE id = " + idMessage + " ORDER BY date DESC";
                        Statement st2 = cn.createStatement();
                        ResultSet rs2 = st2.executeQuery(sql2);
                        if(rs2.next())
                        {
-                           System.out.println("FIN SQL");
                            String msg = "";
                            if(idSenderMessage == idClient)
                            {
@@ -151,22 +147,22 @@ public class RootLayoutController implements Initializable{
         }catch(Exception e){
             e.printStackTrace();
         }finally {
-                try{
-                        cn.close();
-                        st.close();
-                }catch(SQLException e){
-                        e.printStackTrace();
-                }
+            try{
+                    cn.close();
+                    st.close();
+            }catch(SQLException e){
+                    e.printStackTrace();
+            }
         }
     }
     
+    //fonction qui va s'occuper de réceptionner tous les messages à destination de ce client et de l'envoyer vers le bon onglet
     public void receiveMessage(Message message){
-        System.out.println("MESSAGE RECU");
-        if(message.isIdentification())
+        if(message.isIdentification()) //S'il s'agit d'un message automatique
         {
-            if(message.getConnectedUsers() != null)
+            if(message.getConnectedUsers() != null) //Si connectedUsers n'est pas null, cela signifie que c'est un message pour récupérer la liste des utilisateurs actuellement connectés
             {
-                for(Object lgn : message.getConnectedUsers())
+                for(Object lgn : message.getConnectedUsers()) //On va ajouter le login à la liste des utilisateurs connectés (liste à gauche), sauf s'il d'agit du login de ce client
                 {
                     if(!lgn.equals(client.getLogin()))
                     {
@@ -181,14 +177,11 @@ public class RootLayoutController implements Initializable{
                             }
                           );
                     }
-                    
-                    
-                    
                 }
             }
-            else if(message.isDisconnectedMessage())
+            else if(message.isDisconnectedMessage()) //s'il s'agit d'un message de déconnexion (message envoyé par un client lorsqu'il se déconnecte pour prévenir les autres)
             {
-                System.out.println("DISCONNECTED MESSAGE");
+                //Lorsq'un client se déconnecte on le supprime de la liste des utilisateurs connectés qui apparait à gauche de la vue
                 String loginDisconnectedUser = message.getLoginSender();
                 int i = 0;
                 for(Node n : connected.getChildren())
@@ -207,7 +200,7 @@ public class RootLayoutController implements Initializable{
                     }
                 }
             }
-            else{
+            else{ //S'il s'agit d'un message automatique en raison de la connexion d'un nouveau client
                 String pseudo = message.getLoginSender();
                 Label thisLogin = new Label(pseudo);
                 thisLogin.setId(pseudo);
@@ -221,8 +214,8 @@ public class RootLayoutController implements Initializable{
             }
 
         }
-        else{
-            if(message.getLoginRecipient() == null)
+        else{ //S'il s'agit d'un message envoyé volontairement par un client
+            if(message.getLoginRecipient() == null) //S'il n'y a pas de destinataire, cela signifie que ce message est à destination de tous les utilisateurs
             {
                 for(Tab tab : tabPane.getTabs())
                 {
@@ -248,7 +241,7 @@ public class RootLayoutController implements Initializable{
                     }
                 }
             }
-            else{
+            else{ //Sinon, il s'agit d'un message d'une conversation privée
                 for(Tab tab : tabPane.getTabs())
                 {
                     if(tab.getText().equals(message.getLoginSender()))
@@ -274,89 +267,7 @@ public class RootLayoutController implements Initializable{
         }
         
     }
-    
-    
-    
-    public void initializeUsersList()
-    {
-        /*String link = "jdbc:mysql://localhost/java-tp-irc";
-        String login = "root";
-        String password = "";
-        Connection cn = null;
-        Statement st = null;
-        ResultSet rs = null;
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            cn = DriverManager.getConnection(link, login, password);
-            st = cn.createStatement();
-            String sql = "SELECT login FROM utilisateur";
-            rs = st.executeQuery(sql);
-            while(rs.next())
-            {
-                //Group group = new Group();
-                if(!client.getLogin().equals(rs.getString("login")))
-                {
-                    String pseudo = rs.getString("login");
-                    Label thisLogin = new Label(pseudo);
-                    thisLogin.setId(pseudo);
-                    thisLogin.setOnMouseClicked((event) -> {
-                        boolean tabOpen = false;
-                        for(Tab tab : tabPane.getTabs())
-                        {
-                            if(tab.getText().equals(pseudo))
-                            {
-                                tabOpen = true;
-                            }
-                        }
-                        if(!tabOpen)
-                        {
-                            try{
-                                Tab tab = new Tab(pseudo);
-                                tab.setId(pseudo);
 
-                                FXMLLoader loader = new FXMLLoader();
-                                loader.setLocation(IHMConnexion.class.getResource("PrincipalView.fxml"));
-                                Pane principalView = (Pane) loader.load();
-                                PrincipalViewController principalViewController = loader.getController();
-                                principalViewController.setLoginCaller(pseudo);
-                                principalViewController.setClient(client);
-                                tab.setContent(principalView);
-
-                                tabPane.getTabs().add(tab);
-                            }catch(IOException e){
-                                e.printStackTrace();
-                            }
-                        }
-
-
-                    });
-                    connected.getChildren().add(thisLogin);
-                    //group.getChildren().add(thisLogin);
-                    Label thisLoginConnected = new Label("(déconnecté)");
-                    thisLoginConnected.setId("conected_" + rs.getString("login"));
-                    connected.getChildren().add(thisLoginConnected);
-                    connected.getChildren().add(new Text("\n"));
-                    //group.getChildren().add(thisLoginConnected);
-                    //connected.getChildren().add(group);
-
-                    //System.out.println(rs.getString("login"));
-                }
-                
-            }
-        }catch(SQLException e){
-                e.printStackTrace();
-        }catch (ClassNotFoundException e) {
-                e.printStackTrace();
-        }finally {
-                try{
-                        cn.close();
-                        st.close();
-                }catch(SQLException e){
-                        e.printStackTrace();
-                }
-        }*/
-    }
-    
     /**
      * Initializes the controller class.
      */

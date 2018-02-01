@@ -17,8 +17,8 @@ public class Message implements Serializable{
     private String loginRecipient;
     private String message;
     private boolean identification; //Variable qui va servir à ConnectedClient de connaitre le login du client lorsque ce dernier se connecte
-    private ArrayList<String> connectedUsers;
-    private boolean disconnectedMessage;
+    private ArrayList<String> connectedUsers; //Liste des utilisateurs connectes: sera utilisé une seule fois, lorsque le client se connecte pour récupérer la liste des login des utilisateurs connectés
+    private boolean disconnectedMessage; //Pour savoir si ce message est un message de déconnexion (message envoyé lorsqu'un utilisateur se déconnecte pour prévenir les autres utilisateurs de cette déconnexion)
     
     public Message(String loginSender, String loginRecipient, String message, boolean identification)
     {

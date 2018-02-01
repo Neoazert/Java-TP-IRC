@@ -25,7 +25,7 @@ public class ConnectedClient implements Runnable{
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private Server server;
-    private String login;
+    private String login; //login du client lié
     
     ConnectedClient(Server server, Socket socket){
         try {
@@ -63,10 +63,9 @@ public class ConnectedClient implements Runnable{
         while(isActive)
         {
             try {
-                System.out.println("CONNECTED CLIENT");
                 Object obj = in.readObject();
                 Message message = (Message) obj;
-                if(message.isIdentification())
+                if(message.isIdentification()) //Si le message est un message d'identification (message envoyé automatiquement lorsqu'un client se connecte)
                 {
                     this.login = message.getLoginSender();
                     server.broadcastMessage(message);
@@ -110,8 +109,8 @@ public class ConnectedClient implements Runnable{
             this.in.close();
             this.out.close();
             this.socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectedClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

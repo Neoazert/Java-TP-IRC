@@ -70,7 +70,7 @@ public class FXMLConnexionController implements Initializable {
             st = cn.createStatement();
             String sql = "SELECT * FROM utilisateur WHERE login = '" + loginConnexion.getText() + "' AND mdp = '" + mdpConnexion.getText() + "'";
             rs = st.executeQuery(sql);
-            if(rs.next())
+            if(rs.next()) //Si les informations saisies correspondent à un utilisateur en bdd, on affiche le menu principal avec l'onglet de la conversation générale
             {
                 try{
                     FXMLLoader loader = new FXMLLoader();
@@ -92,14 +92,13 @@ public class FXMLConnexionController implements Initializable {
                     Client client = new Client(ihmConnexion.getAddress(), ihmConnexion.getPort(), rootLayoutController, rs.getString("login"));
                     principalViewController.setClient(client);
                     rootLayoutController.setClient(client);
-                    rootLayoutController.initializeUsersList();
                 }catch(IOException e){
                     e.printStackTrace();
                 }
                 
                 System.out.println("Connecter");
             }
-            else{
+            else{ //Sinon on affiche un message d'erreur à l'utilisateur
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Le Chat");
                 alert.setHeaderText("Informations incorrectes");
@@ -111,12 +110,12 @@ public class FXMLConnexionController implements Initializable {
         }catch (ClassNotFoundException e) {
                 e.printStackTrace();
         }finally {
-                try{
-                        cn.close();
-                        st.close();
-                }catch(SQLException e){
-                        e.printStackTrace();
-                }
+            try{
+                    cn.close();
+                    st.close();
+            }catch(SQLException e){
+                    e.printStackTrace();
+            }
         }
     }
     

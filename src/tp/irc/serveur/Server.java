@@ -8,7 +8,6 @@ package tp.irc.serveur;
 import ihm.model.Message;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,11 +44,7 @@ public class Server {
     }
     
     public void addClient(ConnectedClient client){
-        /*for(ConnectedClient ceClient : clients){
-            ceClient.sendMessage("Le client " + client.getId() + " vient de se connecter");
-        }*/
         this.clients.add(client);
-        
     }
     
     public void broadcastMessage(Message message){
@@ -98,8 +93,5 @@ public class Server {
     public void setClients(ArrayList<ConnectedClient> clients) {
         this.clients = clients;
     }
-    
-    
-    
     
 }

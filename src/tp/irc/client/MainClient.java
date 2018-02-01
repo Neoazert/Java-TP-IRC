@@ -5,9 +5,6 @@
  */
 package tp.irc.client;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
 /**
  *
  * @author p1502985
@@ -28,8 +25,5 @@ public class MainClient {
         System.out.println("java client.Client <address> <port>");
         System.out.println("\t<address>: server's ip address");
         System.out.println("\t<port>: server's port");
-        /*Client.write("java client.Client <address> <port>");
-        Client.write("\t<address>: server's ip address");
-        Client.write("\t<port>: server's port");*/
     }
 }

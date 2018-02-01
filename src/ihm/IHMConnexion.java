@@ -5,15 +5,12 @@
  */
 package ihm;
 
-import java.util.Arrays;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import tp.irc.client.Client;
-import tp.irc.client.MainClient;
 
 /**
  *
@@ -73,15 +70,11 @@ public class IHMConnexion extends Application {
         System.out.println("java client.Client <address> <port>");
         System.out.println("\t<address>: server's ip address");
         System.out.println("\t<port>: server's port");
-        /*Client.write("java client.Client <address> <port>");
-        Client.write("\t<address>: server's ip address");
-        Client.write("\t<port>: server's port");*/
     }
     
     @Override
     public void stop(){
         System.out.println("Fermeture de l'application");
-        //Client.write("Fermeture de l'application");
         System.exit(0);
     }
     

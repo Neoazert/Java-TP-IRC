@@ -5,15 +5,9 @@
  */
 package tp.irc.client;
 
-import ihm.FXMLDocumentController;
-import ihm.IHMConnexion;
-import ihm.PrincipalViewController;
 import ihm.model.Message;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -39,7 +33,6 @@ public class ClientReceive implements Runnable {
                 Object obj = in.readObject();
                 message = (Message)obj;
                 if (message != null) {
-                    //System.out.println(message);
                     client.getRootController().receiveMessage(message);
                 } else {
                     isActive = false;
@@ -47,7 +40,6 @@ public class ClientReceive implements Runnable {
                 
             } catch (IOException ex) {
                 ex.printStackTrace();
-                //Client.write("Erreur while Reciving message : " + ex.getMessage());
             }catch(ClassNotFoundException e){
                 e.printStackTrace();
             }
